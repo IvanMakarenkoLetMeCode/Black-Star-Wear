@@ -1,0 +1,38 @@
+PODS:
+  - Alamofire (5.4.1)
+  - Moya (14.0.0):
+    - Moya/Core (= 14.0.0)
+  - Moya/Core (14.0.0):
+    - Alamofire (~> 5.0)
+  - Realm (10.5.1):
+    - Realm/Headers (= 10.5.1)
+  - Realm/Headers (10.5.1)
+  - SDWebImage (5.10.4):
+    - SDWebImage/Core (= 5.10.4)
+  - SDWebImage/Core (5.10.4)
+  - TinyConstraints (4.0.1)
+
+DEPENDENCIES:
+  - Moya
+  - Realm
+  - SDWebImage
+  - TinyConstraints
+
+SPEC REPOS:
+  trunk:
+    - Alamofire
+    - Moya
+    - Realm
+    - SDWebImage
+    - TinyConstraints
+
+SPEC CHECKSUMS:
+  Alamofire: 2291f7d21ca607c491dd17642e5d40fdcda0e65c
+  Moya: 5b45dacb75adb009f97fde91c204c1e565d31916
+  Realm: 77fcb4e0b9f2963ea06f584749a0d7dc9cab95e1
+  SDWebImage: c666b97e1fa9c64b4909816a903322018f0a9c84
+  TinyConstraints: 8dd91295e56797648c7bc335dd20e1d91ec4c192
+
+PODFILE CHECKSUM: 11cf61734b91db974cc61fb889c23b9ab5318cc8
+
+COCOAPODS: 1.10.1
