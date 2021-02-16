@@ -7,22 +7,34 @@
 
 import Foundation
 
-struct Category: Codable {
+struct Category: Decodable {
     
-    var name: String?
-    var sortOrder: Int?
-    var image: String?
-    var iconImage: String?
-    var iconImageActive: String?
+    var name: String
+    var sortOrder: String?
+    var image: String
+    var iconImage: String
+    var iconImageActive: String
     var subcategories: [Subcategories]?
     
     enum CodingKeys: String, CodingKey {
+        
         case name = "name"
         case sortOrder = "sortOrder"
         case image = "image"
         case iconImage = "iconImage"
         case iconImageActive = "iconImageActive"
         case subcategories = "subcategories"
+    }
+
+    init(from decoder: Decoder) throws {
+        
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        name = try container.decode(String.self, forKey: .name)
+        sortOrder = try? container.decode(String.self, forKey: .sortOrder)
+        image = try container.decode(String.self, forKey: .image)
+        iconImage = try container.decode(String.self, forKey: .iconImage)
+        iconImageActive = try container.decode(String.self, forKey: .iconImageActive)
+        subcategories = try? container.decode([Subcategories].self, forKey: .subcategories)
     }
     
 }
