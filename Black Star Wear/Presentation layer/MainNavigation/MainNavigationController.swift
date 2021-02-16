@@ -12,7 +12,7 @@ class MainNavigationController: UINavigationController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .white
+        view.backgroundColor = AppDesign.Color.white.ui
     }
     
 }

@@ -24,7 +24,6 @@ class CategoriesPresenter {
     required init(view: CategoriesViewInput, router: RouterProtocol) {
         self.view = view
         self.router = router
-//        setupInitialState()
     }
     
 }

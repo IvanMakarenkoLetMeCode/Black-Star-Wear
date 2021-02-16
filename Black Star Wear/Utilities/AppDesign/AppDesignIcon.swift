@@ -12,6 +12,7 @@ extension AppDesign {
     enum Icon: String {
         
         case cart = "ic_cart"
+        case categoryPlaceholder = "ic_category_placeholder"
         
         var value: UIImage {
             

@@ -15,7 +15,7 @@ class AssemblyModelBuilder: AssemblyBuilderProtocol {
     
     func createCategoriesModule(router: RouterProtocol) -> UIViewController {
         let view = CategoriesViewController()
-        view.title = "Categories".localized()
+        view.title = "Категории".localized()
         let presenter = CategoriesPresenter(view: view, router: router)
         view.output = presenter
         return view

@@ -12,7 +12,7 @@ class CategoriesViewCell: UITableViewCell {
     // MARK: - Private properties
     
     private var contentStackView = UIStackView()
-    private var iconImageView = UIImageView()
+    private var iconImageView = CircleView()
     private var titleLabel = UILabel()
     private var emptyView = UIView()
     private var model: CategoryCellData = CategoryCellDataProducer(name: "",
@@ -35,8 +35,19 @@ class CategoriesViewCell: UITableViewCell {
     }
     
     func configureCell(model: CategoryCellData) {
+        
         self.model = model
         titleLabel.text = model.name
+        if !model.image.isEmpty {
+            let urlString = "https://blackstarshop.ru/" + model.image
+            let url = URL(string: urlString)
+            iconImageView.setImage(with: url, placeholderImage: AppDesign.Icon.categoryPlaceholder.value)
+        }
+        else {
+            let url = URL(string: model.image)
+            iconImageView.setImage(with: url, placeholderImage: AppDesign.Icon.categoryPlaceholder.value)
+        }
+        
     }
     
 }
@@ -46,16 +57,16 @@ private extension CategoriesViewCell {
     
     func setupUI() {
         
-        contentView.fill(view: contentStackView, insets: .init(top: 32, left: 16, bottom: 32, right: 16))
+        contentView.fill(view: contentStackView, insets: .init(top: 12, left: 16, bottom: 12, right: 16))
         contentStackView.axis = .horizontal
         contentStackView.alignment = .center
         contentStackView.spacing = 16
         
-//        https://blackstarshop.ru/image/catalog/im2017/1.png
-        
-        iconImageView.contentMode = .scaleAspectFit
+        iconImageView.contentMode = .scaleAspectFill
         iconImageView.widthAnchor.constraint(equalToConstant: 56).isActive = true
         iconImageView.heightAnchor.constraint(equalToConstant: 56).isActive = true
+        iconImageView.layer.cornerRadius = 28
+        iconImageView.layer.masksToBounds = true
         
         titleLabel.contentMode = .left
         titleLabel.numberOfLines = 2

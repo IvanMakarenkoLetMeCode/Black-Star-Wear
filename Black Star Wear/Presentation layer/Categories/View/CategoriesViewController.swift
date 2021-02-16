@@ -73,11 +73,11 @@ private extension CategoriesViewController {
 //        tableView.register(UINib(nibName: categoriesCellIdentifier, bundle: nil),
 //                           forCellReuseIdentifier: categoriesCellIdentifier)
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 100
+        tableView.estimatedRowHeight = 80
         tableView.tableFooterView = UIView()
-        tableView.separatorStyle = .none
-        tableView.contentInset.top = 10
-        tableView.contentInset.bottom = 10
+        tableView.separatorStyle = .singleLine
+//        tableView.contentInset.top = 10
+//        tableView.contentInset.bottom = 10
     }
     
 }
