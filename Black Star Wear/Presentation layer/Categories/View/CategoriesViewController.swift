@@ -17,7 +17,9 @@ class CategoriesViewController: UIViewController {
     //..
     
     // MARK: - Private properties
-    //..
+    
+    private let tableView = UITableView()
+    private let categoriesCellIdentifier = String(describing: CategoriesViewCell.self)
     
     // MARK: - Lifecycle
 
@@ -31,11 +33,51 @@ class CategoriesViewController: UIViewController {
 }
 
 // MARK: - CategoriesViewInput
-extension CategoriesViewController: CategoriesViewInput {}
+extension CategoriesViewController: CategoriesViewInput {
+    
+    func tableViewReloadData() {
+        
+        tableView.reloadData()
+    }
+    
+}
+
+// MARK: - UITableViewDataSource
+extension CategoriesViewController: UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return output.cells.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: categoriesCellIdentifier, for: indexPath) as? CategoriesViewCell else { fatalError() }
+//        let cell = tableView.dequeueReusableCell(withIdentifier: categoriesCellIdentifier, for: indexPath)
+        let category = output.cells[indexPath.row]
+        cell.configureCell(model: category)
+        return cell
+    }
+    
+}
 
 // MARK: Private methods
 private extension CategoriesViewController {
     
-    func setupUI() {}
+    func setupUI() {
+        
+        view.backgroundColor = .white
+        view.fill(view: tableView)
+        tableView.dataSource = self
+//        tableView.delegate = self
+        tableView.register(CategoriesViewCell.self, forCellReuseIdentifier: categoriesCellIdentifier)
+//        tableView.register(UINib(nibName: categoriesCellIdentifier, bundle: nil),
+//                           forCellReuseIdentifier: categoriesCellIdentifier)
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 100
+        tableView.tableFooterView = UIView()
+        tableView.separatorStyle = .none
+        tableView.contentInset.top = 10
+        tableView.contentInset.bottom = 10
+    }
     
 }

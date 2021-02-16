@@ -7,6 +7,7 @@
 
 import Foundation
 
-protocol CategoriesViewInput: class {
-
+protocol CategoriesViewInput: BaseViewInput {
+    
+    func tableViewReloadData()
 }

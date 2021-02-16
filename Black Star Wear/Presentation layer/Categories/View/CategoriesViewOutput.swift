@@ -7,7 +7,9 @@
 
 import Foundation
 
-protocol CategoriesViewOutput: class {
+protocol CategoriesViewOutput: BaseViewOutput {
     
-    func viewDidLoad()
+    init(view: CategoriesViewInput, router: RouterProtocol)
+    var cells: [CategoryCellData] { get }
+    func onSubcategories(id: Int?)
 }
