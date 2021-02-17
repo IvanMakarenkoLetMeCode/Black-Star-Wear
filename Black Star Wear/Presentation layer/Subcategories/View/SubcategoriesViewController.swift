@@ -76,7 +76,7 @@ private extension SubcategoriesViewController {
     
     func setupUI() {
         
-        view.backgroundColor = .white
+        view.backgroundColor = AppDesign.Color.white.ui
         view.fill(view: tableView)
         tableView.dataSource = self
         tableView.delegate = self

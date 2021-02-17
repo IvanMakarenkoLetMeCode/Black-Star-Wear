@@ -15,7 +15,7 @@ struct Category: Decodable {
     var image: String
     var iconImage: String
     var iconImageActive: String
-    var subcategories: [Subcategory]?
+    var subcategories: [Subcategory]
     
     enum CodingKeys: String, CodingKey {
         
@@ -36,7 +36,7 @@ struct Category: Decodable {
         image = try container.decode(String.self, forKey: .image)
         iconImage = try container.decode(String.self, forKey: .iconImage)
         iconImageActive = try container.decode(String.self, forKey: .iconImageActive)
-        subcategories = try? container.decode([Subcategory].self, forKey: .subcategories)
+        subcategories = (try? container.decode([Subcategory].self, forKey: .subcategories)) ?? []
     }
     
 }

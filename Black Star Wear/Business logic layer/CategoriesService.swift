@@ -27,14 +27,13 @@ extension CategoriesService {
         categoriesProvider.request(.categories) { [weak self] result in
             
             guard let self = self else { return }
-//            DispatchQueue.main.async {
                 
                 switch result {
                 case .success(let response):
                     do {
                         
                         let categories = try JSONDecoder().decode(Categories.self, from: response.data)
-                        //                    print(categories)
+//                        print(categories)
                         completion(categories)
                     }
                     catch let error {
@@ -45,7 +44,6 @@ extension CategoriesService {
                     print(error)
                     completion(nil)
                 }
-//            }
         }
         
     }

@@ -65,16 +65,14 @@ extension CategoriesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         tableView.deselectRow(at: indexPath, animated: false)
-        
-        guard let subcategories = output.cells[indexPath.row].subcategories else { return }
             
-        if subcategories.isEmpty {
+        if output.cells[indexPath.row].subcategories.isEmpty {
             
             output.onProducts(id: output.cells[indexPath.row].id)
         }
         else {
             
-            output.onSubcategories(subcategories: subcategories)
+            output.onSubcategories(subcategories: output.cells[indexPath.row].subcategories)
         }
         
     }
@@ -86,7 +84,7 @@ private extension CategoriesViewController {
     
     func setupUI() {
         
-        view.backgroundColor = .white
+        view.backgroundColor = AppDesign.Color.white.ui
         view.fill(view: tableView)
         tableView.dataSource = self
         tableView.delegate = self

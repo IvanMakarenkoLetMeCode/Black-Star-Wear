@@ -12,14 +12,10 @@ class SubcategoriesViewCell: UITableViewCell {
     // MARK: - Private properties
     
     private var contentStackView = UIStackView()
-    private var iconImageView = CircleView()
+    private var iconImageView = URLImageView()
     private var titleLabel = UILabel()
     private var emptyView = UIView()
-    private var model: SubcategoryCellData = SubcategoryCellDataProducer(id: "",
-                                                                         iconImage: "",
-                                                                         sortOrder: "",
-                                                                         name: "",
-                                                                         type: "")
+    private var model: SubcategoryCellData?
     
     // MARK: - Lifecycle
     

@@ -12,16 +12,10 @@ class CategoriesViewCell: UITableViewCell {
     // MARK: - Private properties
     
     private var contentStackView = UIStackView()
-    private var iconImageView = CircleView()
+    private var iconImageView = URLImageView()
     private var titleLabel = UILabel()
     private var emptyView = UIView()
-    private var model: CategoryCellData = CategoryCellDataProducer(id: "",
-                                                                   name: "",
-                                                                   sortOrder: "",
-                                                                   image: "",
-                                                                   iconImage: "",
-                                                                   iconImageActive: "",
-                                                                   subcategories: [])
+    private var model: CategoryCellData?
     
     // MARK: - Lifecycle
     

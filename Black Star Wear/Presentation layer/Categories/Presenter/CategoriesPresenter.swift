@@ -58,8 +58,6 @@ private extension CategoriesPresenter {
     
     func setupInitialState() {
         
-        
-        
         self.categoriesService.getCategories() { [weak self] success in
 
             guard let self = self, let success = success else { return }
@@ -81,7 +79,7 @@ private extension CategoriesPresenter {
                                                        image: category.image,
                                                        iconImage: category.iconImage,
                                                        iconImageActive: category.iconImageActive,
-                                                       subcategories: category.subcategories ?? []))
+                                                       subcategories: category.subcategories))
             
         }
         

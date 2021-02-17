@@ -29,9 +29,11 @@ struct Categories: Decodable {
         let container = try decoder.container(keyedBy: DynamicCodingKeys.self)
         var tempArray = [Category]()
         for key in container.allKeys {
-            let decodedObject = try container.decode(Category.self,
-                                                     forKey: DynamicCodingKeys(stringValue: key.stringValue)!)
-            tempArray.append(decodedObject)
+            if let dynamicCodingKey = DynamicCodingKeys(stringValue: key.stringValue) {
+                
+                let decodedObject = try container.decode(Category.self, forKey: dynamicCodingKey)
+                tempArray.append(decodedObject)
+            }
         }
         
         categories = tempArray
