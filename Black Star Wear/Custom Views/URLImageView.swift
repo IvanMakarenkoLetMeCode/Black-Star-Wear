@@ -1,5 +1,5 @@
 //
-//  CircleView.swift
+//  URLImageView.swift
 //  Black Star Wear
 //
 //  Created by Ivan on 16.02.2021.
@@ -8,16 +8,16 @@
 import UIKit
 import SDWebImage
 
-class CircleView: UIImageView {
+class URLImageView: UIImageView {
     
     // MARK: - Private properties
     
-    private var imageView = UIImageView()
+    //..
     
 }
 
 // MARK: - Public methods
-extension CircleView {
+extension URLImageView {
     
     func setImage(with url: URL?, placeholderImage: UIImage? = nil) {
         
