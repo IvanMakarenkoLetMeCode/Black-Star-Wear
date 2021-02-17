@@ -9,6 +9,9 @@ import UIKit
 protocol AssemblyBuilderProtocol {
     
     func createCategoriesModule(router: RouterProtocol) -> UIViewController
+    func createSubcategoriesModule(subcategories: [Subcategory], router: RouterProtocol) -> UIViewController
+    func createProductsModule(id: String, router: RouterProtocol) -> UIViewController
+    
 }
 
 class AssemblyModelBuilder: AssemblyBuilderProtocol {
@@ -19,6 +22,27 @@ class AssemblyModelBuilder: AssemblyBuilderProtocol {
         let presenter = CategoriesPresenter(view: view, router: router)
         view.output = presenter
         return view
+    }
+    
+    func createSubcategoriesModule(subcategories: [Subcategory],
+                                   router: RouterProtocol) -> UIViewController {
+        
+        let view = SubcategoriesViewController()
+        view.title = "Подкатегории".localized()
+        let presenter = SubcategoriesPresenter(view: view, subcategories: subcategories, router: router)
+        view.output = presenter
+        return view
+        
+    }
+    
+    func createProductsModule(id: String, router: RouterProtocol) -> UIViewController {
+        
+        let view = ProductsViewController()
+        view.title = "Товары".localized()
+        let presenter = ProductsPresenter(view: view, id: id, router: router)
+        view.output = presenter
+        return view
+        
     }
     
 }

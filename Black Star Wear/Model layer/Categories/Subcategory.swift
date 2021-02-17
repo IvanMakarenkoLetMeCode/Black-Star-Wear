@@ -1,5 +1,5 @@
 //
-//  Subcategories.swift
+//  Subcategory.swift
 //  Black Star Wear
 //
 //  Created by Ivan on 09.02.2021.
@@ -7,11 +7,11 @@
 
 import Foundation
 
-struct Subcategories: Decodable {
+struct Subcategory: Decodable {
     
-    var id: String
+    var id: String?
     var iconImage: String
-    var sortOrder: String
+    var sortOrder: String?
     var name: String
     var type: String
     
@@ -27,9 +27,9 @@ struct Subcategories: Decodable {
     init(from decoder: Decoder) throws {
         
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        id = try container.decode(String.self, forKey: .id)
+        id = try? container.decode(String.self, forKey: .id)
         iconImage = try container.decode(String.self, forKey: .iconImage)
-        sortOrder = try container.decode(String.self, forKey: .sortOrder)
+        sortOrder = try? container.decode(String.self, forKey: .sortOrder)
         name = try container.decode(String.self, forKey: .name)
         type = try container.decode(String.self, forKey: .type)
     }

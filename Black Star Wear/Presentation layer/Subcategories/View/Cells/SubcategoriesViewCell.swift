@@ -1,13 +1,13 @@
 //
-//  CategoriesViewCell.swift
+//  SubcategoriesViewCell.swift
 //  Black Star Wear
 //
-//  Created by Ivan on 12.02.2021.
+//  Created by Ivan on 16.02.2021.
 //
 
 import UIKit
 
-class CategoriesViewCell: UITableViewCell {
+class SubcategoriesViewCell: UITableViewCell {
     
     // MARK: - Private properties
     
@@ -15,13 +15,11 @@ class CategoriesViewCell: UITableViewCell {
     private var iconImageView = CircleView()
     private var titleLabel = UILabel()
     private var emptyView = UIView()
-    private var model: CategoryCellData = CategoryCellDataProducer(id: "",
-                                                                   name: "",
-                                                                   sortOrder: "",
-                                                                   image: "",
-                                                                   iconImage: "",
-                                                                   iconImageActive: "",
-                                                                   subcategories: [])
+    private var model: SubcategoryCellData = SubcategoryCellDataProducer(id: "",
+                                                                         iconImage: "",
+                                                                         sortOrder: "",
+                                                                         name: "",
+                                                                         type: "")
     
     // MARK: - Lifecycle
     
@@ -35,17 +33,17 @@ class CategoriesViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureCell(model: CategoryCellData) {
+    func configureCell(model: SubcategoryCellData) {
         
         self.model = model
         titleLabel.text = model.name
-        if !model.image.isEmpty {
-            let urlString = "https://blackstarshop.ru/" + model.image
+        if !model.iconImage.isEmpty {
+            let urlString = "https://blackstarshop.ru/" + model.iconImage
             let url = URL(string: urlString)
             iconImageView.setImage(with: url, placeholderImage: AppDesign.Icon.categoryPlaceholder.value)
         }
         else {
-            let url = URL(string: model.image)
+            let url = URL(string: model.iconImage)
             iconImageView.setImage(with: url, placeholderImage: AppDesign.Icon.categoryPlaceholder.value)
         }
         
@@ -54,7 +52,7 @@ class CategoriesViewCell: UITableViewCell {
 }
 
 // MARK: - Private methods
-private extension CategoriesViewCell {
+private extension SubcategoriesViewCell {
     
     func setupUI() {
         

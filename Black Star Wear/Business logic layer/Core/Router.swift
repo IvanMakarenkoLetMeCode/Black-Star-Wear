@@ -16,7 +16,8 @@ protocol RouterMain {
 protocol RouterProtocol: RouterMain {
     
     func initialViewController()
-    func showSubcategories(id: Int?)
+    func showSubcategories(subcategories: [Subcategory])
+    func showProducts(id: String)
     func popToRoute()
 }
 
@@ -39,13 +40,22 @@ class Router: RouterProtocol {
         }
     }
     
-    func showSubcategories(id: Int?) {
+    func showSubcategories(subcategories: [Subcategory]) {
         
-//        if let navigationController = navigationController {
-//            guard let subcategoryViewController = assemblyBuilder?
-//                    .createSubcategoriesModule(id: id, router: self) else { return }
-//            navigationController.pushViewController(subcategoryViewController, animated: true)
-//        }
+        if let navigationController = navigationController {
+            guard let subcategoryViewController = assemblyBuilder?
+                    .createSubcategoriesModule(subcategories: subcategories, router: self) else { return }
+            navigationController.pushViewController(subcategoryViewController, animated: true)
+        }
+    }
+    
+    func showProducts(id: String) {
+        
+        if let navigationController = navigationController {
+            guard let subcategoryViewController = assemblyBuilder?
+                    .createProductsModule(id: id, router: self) else { return }
+            navigationController.pushViewController(subcategoryViewController, animated: true)
+        }
     }
     
     func popToRoute() {
