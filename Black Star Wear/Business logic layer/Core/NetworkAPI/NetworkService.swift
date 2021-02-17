@@ -11,7 +11,7 @@ import Moya
 enum NetworkService {
     
     case categories
-    case products(id: Int)
+    case products(id: String)
 }
 
 extension NetworkService: TargetType {
@@ -52,15 +52,15 @@ extension NetworkService: TargetType {
         switch self {
         case .categories:
             return .requestParameters(parameters: ["route": "api/v1/categories"], encoding: URLEncoding.queryString)
-            
+
         case .products(let id):
-            return .requestParameters(parameters: ["route": "api/v1/product", "cat_id": id],
+            return .requestParameters(parameters: ["route": "api/v1/products", "cat_id": id],
                                       encoding: URLEncoding.queryString)
         }
     }
     
     var headers: [String : String]? {
-        return nil
+        return ["Content-Type": "application/json"]
     }
     
 }
