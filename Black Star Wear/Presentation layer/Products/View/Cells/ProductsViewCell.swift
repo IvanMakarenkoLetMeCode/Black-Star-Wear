@@ -16,6 +16,7 @@ class ProductsViewCell: UICollectionViewCell {
     private var productImageView = URLImageView()
     private var priceStackView = UIStackView()
     private var priceLabel = UILabel()
+    private let screenSize: CGRect = UIScreen.main.bounds
     private var model: ProductsCellData?
     
     // MARK: - Lifecycle
@@ -34,7 +35,7 @@ class ProductsViewCell: UICollectionViewCell {
         
         self.model = model
         titleLabel.text = model.name
-        priceLabel.text = priceFormate(model.price)
+        priceLabel.text = model.price.priceFormate()
         if !model.mainImage.isEmpty {
             let urlString = "https://blackstarshop.ru/" + model.mainImage
             let url = URL(string: urlString)
@@ -61,34 +62,23 @@ private extension ProductsViewCell {
         contentStackView.spacing = 6
 
         titleLabel.textAlignment = .center
-        titleLabel.numberOfLines = 2
-        titleLabel.font = AppDesign.Font.regular.with(size: 16)
+        titleLabel.numberOfLines = 1
+        titleLabel.font = AppDesign.Font.regular.with(fontName: AppDesign.FontName.sfProDisplay.rawValue, size: 16)
         titleLabel.textColor = AppDesign.Color.title.ui
-
-        productImageView.contentMode = .scaleToFill
-        productImageView.widthAnchor.constraint(equalToConstant: 168).isActive = true
-        productImageView.heightAnchor.constraint(equalToConstant: 168).isActive = true
+        
+        productImageView.contentMode = .scaleAspectFill
+        productImageView.clipsToBounds = true
+        productImageView.widthAnchor.constraint(equalToConstant: ((screenSize.width / 2) - 32)).isActive = true
+        productImageView.heightAnchor.constraint(equalToConstant: ((screenSize.width / 2) - 32)).isActive = true
 
         priceLabel.contentMode = .left
         priceLabel.numberOfLines = 1
-        priceLabel.font = AppDesign.Font.regular.with(size: 16)
+        priceLabel.font = AppDesign.Font.regular.with(fontName: AppDesign.FontName.sfProDisplay.rawValue, size: 16)
         priceLabel.textColor = AppDesign.Color.title.ui
 
         contentStackView.addArrangedSubview(titleLabel)
         contentStackView.addArrangedSubview(productImageView)
         contentStackView.addArrangedSubview(priceLabel)
-    }
-    
-    func priceFormate(_ price: String) -> String {
-        
-        var formatedPrice = price
-        let priceNumber = NumberFormatter().number(from: formatedPrice)
-        let formater = NumberFormatter()
-        formater.numberStyle = .currency
-        formater.locale = Locale(identifier: "ru_RU")
-        formatedPrice = formater.string(from: priceNumber ?? 0) ?? ""
-        return formatedPrice
-        
     }
     
 }

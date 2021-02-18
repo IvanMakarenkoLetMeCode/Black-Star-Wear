@@ -65,7 +65,7 @@ private extension SubcategoriesViewCell {
         
         titleLabel.contentMode = .left
         titleLabel.numberOfLines = 2
-        titleLabel.font = AppDesign.Font.regular.with(size: 16)
+        titleLabel.font = AppDesign.Font.regular.with(fontName: AppDesign.FontName.sfProDisplay.rawValue, size: 16)
         titleLabel.textColor = AppDesign.Color.title.ui
         
         emptyView.widthAnchor.constraint(equalToConstant: 23).isActive = true

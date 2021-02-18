@@ -38,9 +38,9 @@ extension ProductsPresenter: ProductsViewOutput {
         return cellsProducts
     }
 
-    func onProduct(id: String) {
+    func onProduct(product: ProductsCellData) {
 
-//        router?.showProduct(id: id)
+        router?.showProduct(product: product)
     }
 
     func viewDidLoad() {
@@ -79,11 +79,11 @@ private extension ProductsPresenter {
                                                           colorName: product.colorName ?? "",
                                                           colorImageURL: product.colorImageURL ?? "",
                                                           mainImage: product.mainImage ?? "",
-                                                          productImages: product.productImages ?? [],
-                                                          offers: product.offers ?? [],
-                                                          recommendedProductIDs: product.recommendedProductIDs ?? [],
+                                                          productImages: product.productImages,
+                                                          offers: product.offers,
+                                                          recommendedProductIDs: product.recommendedProductIDs,
                                                           price: product.price ?? "",
-                                                          attributes: product.attributes ?? []))
+                                                          attributes: product.attributes))
         }
         
 //        print(cellsProducts)

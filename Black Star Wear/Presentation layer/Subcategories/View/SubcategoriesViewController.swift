@@ -65,7 +65,6 @@ extension SubcategoriesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         tableView.deselectRow(at: indexPath, animated: false)
-        
         output.onProducts(id: output.cells[indexPath.row].id)
     }
     
