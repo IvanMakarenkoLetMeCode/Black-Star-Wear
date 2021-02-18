@@ -15,9 +15,9 @@ extension AppDesign {
         case regular = "Regular"
         case medium = "Medium"
         
-        func with(size: CGFloat) -> UIFont {
+        func with(fontName: String, size: CGFloat) -> UIFont {
             
-            let font = UIFont(name: "SFProDisplay-\(self.rawValue)", size: size)
+            let font = UIFont(name: "\(fontName)-\(self.rawValue)", size: size)
             return font ?? UIFont.systemFont(ofSize: size)
         }
         

@@ -19,6 +19,12 @@ extension AppDesign {
         case black = "co_black"
         /// Hex: #FFFFFF
         case white = "co_white"
+        /// Hex: ##7F807F
+        case grey = "co_grey"
+        /// Hex: #007AFF
+        case blue = "co_blue"
+        /// Hex: #E0E0E0
+        case separator = "co_separator"
         
         var ui: UIColor {
             
