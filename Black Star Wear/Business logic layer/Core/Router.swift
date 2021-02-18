@@ -18,7 +18,9 @@ protocol RouterProtocol: RouterMain {
     func initialViewController()
     func showSubcategories(subcategories: [Subcategory])
     func showProducts(id: String)
+    func showProduct(product: ProductsCellData)
     func popToRoute()
+    func popViewController(isNavigationBarHidden: Bool)
 }
 
 class Router: RouterProtocol {
@@ -52,9 +54,28 @@ class Router: RouterProtocol {
     func showProducts(id: String) {
         
         if let navigationController = navigationController {
-            guard let subcategoryViewController = assemblyBuilder?
+            guard let productsViewController = assemblyBuilder?
                     .createProductsModule(id: id, router: self) else { return }
-            navigationController.pushViewController(subcategoryViewController, animated: true)
+            navigationController.pushViewController(productsViewController, animated: true)
+        }
+    }
+    
+    func showProduct(product: ProductsCellData) {
+        
+        if let navigationController = navigationController {
+            guard let productViewController = assemblyBuilder?
+                    .createProductModule(product: product, router: self) else { return }
+            navigationController.isNavigationBarHidden = true
+            navigationController.pushViewController(productViewController, animated: true)
+        }
+        
+    }
+    
+    func popViewController(isNavigationBarHidden: Bool) {
+        
+        if let navigationController = navigationController {
+            navigationController.isNavigationBarHidden = isNavigationBarHidden
+            navigationController.popViewController(animated: true)
         }
     }
     
