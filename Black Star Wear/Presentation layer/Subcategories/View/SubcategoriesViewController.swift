@@ -84,6 +84,27 @@ private extension SubcategoriesViewController {
         tableView.estimatedRowHeight = 80
         tableView.tableFooterView = UIView()
         tableView.separatorStyle = .singleLine
+        
+        let cartButtonItem = UIBarButtonItem(image: AppDesign.Icon.cart.value, style: .plain, target: self,
+                                             action: #selector(cartButtonDidTap))
+        let backButtonItem = UIBarButtonItem(image: AppDesign.Icon.backButton.value, style: .plain, target: self,
+                                             action: #selector(backButtonDidTap))
+        self.navigationItem.rightBarButtonItem  = cartButtonItem
+        self.navigationItem.leftBarButtonItem = backButtonItem
+        self.navigationItem.leftBarButtonItem?.tintColor = AppDesign.Color.grey.ui
+        self.navigationItem.rightBarButtonItem?.tintColor = AppDesign.Color.grey.ui
+    }
+    
+    // MARK: - Actions
+    
+    @objc func cartButtonDidTap(_ sender: Any) {
+        
+        output.cartButtonDidTap()
+    }
+    
+    @objc func backButtonDidTap(_ sender: Any) {
+        
+        output.backButtonDidTap()
     }
     
 }

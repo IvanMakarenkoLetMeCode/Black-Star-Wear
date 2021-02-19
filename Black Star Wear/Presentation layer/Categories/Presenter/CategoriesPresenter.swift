@@ -46,6 +46,11 @@ extension CategoriesPresenter: CategoriesViewOutput {
         router?.showProducts(id: id)
     }
     
+    func cartButtonDidTap() {
+        
+        router?.showCart(navigationBarHidden: false, products: [])
+    }
+    
     func viewDidLoad() {
         
         setupInitialState()

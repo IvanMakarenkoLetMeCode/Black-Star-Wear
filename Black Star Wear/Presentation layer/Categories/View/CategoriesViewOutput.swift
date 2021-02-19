@@ -13,4 +13,5 @@ protocol CategoriesViewOutput: BaseViewOutput {
     var cells: [CategoryCellData] { get }
     func onSubcategories(subcategories: [Subcategory])
     func onProducts(id: String)
+    func cartButtonDidTap()
 }

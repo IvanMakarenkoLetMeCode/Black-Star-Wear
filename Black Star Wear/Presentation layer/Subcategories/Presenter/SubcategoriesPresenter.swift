@@ -29,7 +29,7 @@ class SubcategoriesPresenter {
     
 }
 
-// MARK: - CategoriesViewOutput
+// MARK: - SubcategoriesViewOutput
 extension SubcategoriesPresenter: SubcategoriesViewOutput {
     
     var cells: [SubcategoryCellData] {
@@ -40,6 +40,16 @@ extension SubcategoriesPresenter: SubcategoriesViewOutput {
     func onProducts(id: String) {
         
         router?.showProducts(id: id)
+    }
+    
+    func cartButtonDidTap() {
+        
+        router?.showCart(navigationBarHidden: false, products: [])
+    }
+    
+    func backButtonDidTap() {
+        
+        router?.popViewController(isNavigationBarHidden: false)
     }
     
     func viewDidLoad() {

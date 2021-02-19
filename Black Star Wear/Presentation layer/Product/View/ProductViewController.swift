@@ -54,6 +54,13 @@ extension ProductViewController: ProductViewInput {
         priceLabel.text = output.chosedProduct.price.priceFormate()
         descriptionTextView.attributedText = output.chosedProduct.description
             .convertHTMLStringToAttributed(fontName: AppDesign.FontName.roboto.rawValue, fontSize: 16)
+        if output.chosedProduct.productImages.isEmpty {
+            
+            backButton.backgroundColor = AppDesign.Color.grey.ui
+            backButton.layer.cornerRadius = AppDesign.constants.smallCornerRadius
+            cartButton.backgroundColor = AppDesign.Color.grey.ui
+            cartButton.layer.cornerRadius = 5
+        }
     }
     
 }

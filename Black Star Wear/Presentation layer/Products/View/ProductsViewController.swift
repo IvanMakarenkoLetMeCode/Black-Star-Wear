@@ -91,6 +91,27 @@ private extension ProductsViewController {
         collectionView.register(ProductsViewCell.self, forCellWithReuseIdentifier: productsCellIdentifier)
         self.collectionView = collectionView
         view.fill(view: self.collectionView, insets: .init(top: 20, left: 16, bottom: 12, right: 16))
+        
+        let cartButtonItem = UIBarButtonItem(image: AppDesign.Icon.cart.value, style: .plain, target: self,
+                                             action: #selector(cartButtonDidTap))
+        let backButtonItem = UIBarButtonItem(image: AppDesign.Icon.backButton.value, style: .plain, target: self,
+                                             action: #selector(backButtonDidTap))
+        self.navigationItem.rightBarButtonItem  = cartButtonItem
+        self.navigationItem.leftBarButtonItem = backButtonItem
+        self.navigationItem.leftBarButtonItem?.tintColor = AppDesign.Color.grey.ui
+        self.navigationItem.rightBarButtonItem?.tintColor = AppDesign.Color.grey.ui
+    }
+    
+    // MARK: - Actions
+    
+    @objc func cartButtonDidTap(_ sender: Any) {
+        
+        output.cartButtonDidTap()
+    }
+    
+    @objc func backButtonDidTap(_ sender: Any) {
+        
+        output.backButtonDidTap()
     }
     
 }

@@ -19,6 +19,7 @@ protocol RouterProtocol: RouterMain {
     func showSubcategories(subcategories: [Subcategory])
     func showProducts(id: String)
     func showProduct(product: ProductsCellData)
+    func showCart(navigationBarHidden: Bool, products: [ProductsCellData])
     func popToRoute()
     func popViewController(isNavigationBarHidden: Bool)
 }
@@ -68,7 +69,16 @@ class Router: RouterProtocol {
             navigationController.isNavigationBarHidden = true
             navigationController.pushViewController(productViewController, animated: true)
         }
+    }
+    
+    func showCart(navigationBarHidden: Bool, products: [ProductsCellData]) {
         
+        if let navigationController = navigationController {
+            guard let cartViewController = assemblyBuilder?
+                    .createCartModule(navigationBarHidden: navigationBarHidden, products: products, router: self) else { return }
+            navigationController.isNavigationBarHidden = false
+            navigationController.pushViewController(cartViewController, animated: true)
+        }
     }
     
     func popViewController(isNavigationBarHidden: Bool) {

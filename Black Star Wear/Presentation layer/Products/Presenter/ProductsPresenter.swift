@@ -30,7 +30,7 @@ class ProductsPresenter {
     
 }
 
-// MARK: - CategoriesViewOutput
+// MARK: - ProductsViewOutput
 extension ProductsPresenter: ProductsViewOutput {
 
     var cells: [ProductsCellData] {
@@ -41,6 +41,16 @@ extension ProductsPresenter: ProductsViewOutput {
     func onProduct(product: ProductsCellData) {
 
         router?.showProduct(product: product)
+    }
+    
+    func cartButtonDidTap() {
+        
+        router?.showCart(navigationBarHidden: false, products: cellsProducts)
+    }
+    
+    func backButtonDidTap() {
+        
+        router?.popViewController(isNavigationBarHidden: false)
     }
 
     func viewDidLoad() {

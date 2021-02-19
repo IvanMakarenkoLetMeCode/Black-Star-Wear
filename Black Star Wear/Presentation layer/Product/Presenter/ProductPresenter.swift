@@ -43,7 +43,7 @@ extension ProductPresenter: ProductViewOutput {
     
     func cartButtonDidTap() {
         
-        //..
+        router?.showCart(navigationBarHidden: true, products: [])
     }
     
     func backButtonDidTap() {

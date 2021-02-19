@@ -93,6 +93,18 @@ private extension CategoriesViewController {
         tableView.estimatedRowHeight = 80
         tableView.tableFooterView = UIView()
         tableView.separatorStyle = .singleLine
+        
+        let cartButtonItem = UIBarButtonItem(image: AppDesign.Icon.cart.value, style: .plain, target: self,
+                                             action: #selector(cartButtonDidTap))
+        self.navigationItem.rightBarButtonItem = cartButtonItem
+        self.navigationItem.rightBarButtonItem?.tintColor = AppDesign.Color.grey.ui
+    }
+    
+    // MARK: - Actions
+    
+    @objc func cartButtonDidTap(_ sender: Any) {
+        
+        output.cartButtonDidTap()
     }
     
 }

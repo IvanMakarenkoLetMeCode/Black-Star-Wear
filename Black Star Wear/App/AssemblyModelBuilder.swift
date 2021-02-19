@@ -12,12 +12,14 @@ protocol AssemblyBuilderProtocol {
     func createSubcategoriesModule(subcategories: [Subcategory], router: RouterProtocol) -> UIViewController
     func createProductsModule(id: String, router: RouterProtocol) -> UIViewController
     func createProductModule(product: ProductsCellData, router: RouterProtocol) -> UIViewController
+    func createCartModule(navigationBarHidden: Bool, products: [ProductsCellData], router: RouterProtocol) -> UIViewController
     
 }
 
 class AssemblyModelBuilder: AssemblyBuilderProtocol {
     
     func createCategoriesModule(router: RouterProtocol) -> UIViewController {
+        
         let view = CategoriesViewController()
         view.title = "Категории".localized()
         let presenter = CategoriesPresenter(view: view, router: router)
@@ -33,7 +35,6 @@ class AssemblyModelBuilder: AssemblyBuilderProtocol {
         let presenter = SubcategoriesPresenter(view: view, subcategories: subcategories, router: router)
         view.output = presenter
         return view
-        
     }
     
     func createProductsModule(id: String, router: RouterProtocol) -> UIViewController {
@@ -43,7 +44,6 @@ class AssemblyModelBuilder: AssemblyBuilderProtocol {
         let presenter = ProductsPresenter(view: view, id: id, router: router)
         view.output = presenter
         return view
-        
     }
     
     func createProductModule(product: ProductsCellData, router: RouterProtocol) -> UIViewController {
@@ -52,7 +52,15 @@ class AssemblyModelBuilder: AssemblyBuilderProtocol {
         let presenter = ProductPresenter(view: view, product: product, router: router)
         view.output = presenter
         return view
+    }
+    
+    func createCartModule(navigationBarHidden: Bool, products: [ProductsCellData], router: RouterProtocol) -> UIViewController {
         
+        let view = CartViewController()
+        view.title = "Корзина".localized()
+        let presenter = CartPresenter(view: view, navigationBarHidden: navigationBarHidden, products: products, router: router)
+        view.output = presenter
+        return view
     }
     
 }
