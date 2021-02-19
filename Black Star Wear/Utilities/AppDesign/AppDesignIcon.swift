@@ -12,6 +12,8 @@ extension AppDesign {
     enum Icon: String {
         
         case backButton = "ic_back_button"
+        case bin = "ic_bin"
+        case cross = "ic_cross"
         case cart = "ic_cart"
         case categoryPlaceholder = "ic_category_placeholder"
         

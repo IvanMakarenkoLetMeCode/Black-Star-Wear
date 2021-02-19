@@ -12,7 +12,8 @@ enum AppDesign {
     case constants
     
     var cornerRadius: CGFloat { return 10.0 }
-    var largeCornerRadius: CGFloat { return 20.0 }
+    var smallCornerRadius: CGFloat { return 5.0 }
+    var largeCornerRadius: CGFloat { return 25.0 }
     var borderWidth: CGFloat { return 1.0 }
     
     var leftNavigationItemOffset: CGFloat { return 8.0 }
