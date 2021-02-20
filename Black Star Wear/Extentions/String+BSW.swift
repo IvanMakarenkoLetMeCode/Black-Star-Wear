@@ -1,5 +1,5 @@
 //
-//  String.swift
+//  String+BSW.swift
 //  Black Star Wear
 //
 //  Created by Ivan on 09.02.2021.

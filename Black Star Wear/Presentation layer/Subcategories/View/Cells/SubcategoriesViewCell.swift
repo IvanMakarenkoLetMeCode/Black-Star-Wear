@@ -25,6 +25,11 @@ class SubcategoriesViewCell: UITableViewCell {
         setupUI()
     }
     
+    override func prepareForReuse() {
+        
+        iconImageView.sd_cancelCurrentImageLoad()
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -33,16 +38,9 @@ class SubcategoriesViewCell: UITableViewCell {
         
         self.model = model
         titleLabel.text = model.name
-        if !model.iconImage.isEmpty {
-            let urlString = "https://blackstarshop.ru/" + model.iconImage
-            let url = URL(string: urlString)
-            iconImageView.setImage(with: url, placeholderImage: AppDesign.Icon.categoryPlaceholder.value)
-        }
-        else {
-            let url = URL(string: model.iconImage)
-            iconImageView.setImage(with: url, placeholderImage: AppDesign.Icon.categoryPlaceholder.value)
-        }
-        
+        let urlString = "https://blackstarshop.ru/" + model.iconImage
+        let url = URL(string: urlString)
+        iconImageView.setImage(with: url, placeholderImage: AppDesign.Icon.categoryPlaceholder.value)
     }
     
 }
@@ -65,7 +63,7 @@ private extension SubcategoriesViewCell {
         
         titleLabel.contentMode = .left
         titleLabel.numberOfLines = 2
-        titleLabel.font = AppDesign.Font.regular.with(fontName: AppDesign.FontName.sfProDisplay.rawValue, size: 16)
+        titleLabel.font = AppDesign.FontName.sfProDisplay.regularWith(size: 16)
         titleLabel.textColor = AppDesign.Color.title.ui
         
         emptyView.widthAnchor.constraint(equalToConstant: 23).isActive = true

@@ -1,5 +1,5 @@
 //
-//  NetworkService.swift
+//  NetworkTarget.swift
 //  Black Star Wear
 //
 //  Created by Ivan on 09.02.2021.
@@ -8,13 +8,13 @@
 import UIKit
 import Moya
 
-enum NetworkService {
+enum NetworkTarget {
     
     case categories
     case products(id: String)
 }
 
-extension NetworkService: TargetType {
+extension NetworkTarget: TargetType {
     
     //MARK: - URL
     //https://blackstarshop.ru/index.php?route=api/v1/categories

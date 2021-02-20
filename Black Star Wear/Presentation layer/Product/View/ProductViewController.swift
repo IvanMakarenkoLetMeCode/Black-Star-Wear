@@ -24,7 +24,6 @@ class ProductViewController: UIViewController {
     private var cartButton = VButton()
     private var contentScrollView = UIScrollView()
     private var contentStackView = UIStackView()
-    private var titleStackView = UIStackView()
     private var titleLabel = UILabel()
     private let separatorView = UIView()
     private var priceStackView = UIStackView()
@@ -43,6 +42,18 @@ class ProductViewController: UIViewController {
         output.viewDidLoad()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        output.viewWillAppear()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        output.viewWillDisappear()
+    }
+    
 }
 
 // MARK: - ProductViewInput
@@ -51,7 +62,8 @@ extension ProductViewController: ProductViewInput {
     func setupContent() {
         
         titleLabel.text = output.chosedProduct.name
-        priceLabel.text = output.chosedProduct.price.priceFormate()
+        let priceString = String(output.chosedProduct.price)
+        priceLabel.text = priceString.priceFormate()
         descriptionTextView.attributedText = output.chosedProduct.description
             .convertHTMLStringToAttributed(fontName: AppDesign.FontName.roboto.rawValue, fontSize: 16)
         if output.chosedProduct.productImages.isEmpty {
@@ -61,6 +73,11 @@ extension ProductViewController: ProductViewInput {
             cartButton.backgroundColor = AppDesign.Color.grey.ui
             cartButton.layer.cornerRadius = 5
         }
+    }
+    
+    func navigationBarIsHidden(_ bool: Bool) {
+        
+        navigationController?.isNavigationBarHidden = bool
     }
     
 }
@@ -90,19 +107,11 @@ private extension ProductViewController {
         
         view.backgroundColor = AppDesign.Color.white.ui
         
-        backButton.backgroundColor = .clear
-        backButton.setImage(AppDesign.Icon.backButton.value)
-        backButton.clipsToBounds = true
+        setupButton(button: backButton, image: AppDesign.Icon.backButton.value, constant: 24)
         backButton.addTarget(self, action: #selector(backButtonDidTap), for: .touchUpInside)
-        backButton.widthAnchor.constraint(equalToConstant: 24).isActive = true
-        backButton.heightAnchor.constraint(equalToConstant: 24).isActive = true
         
-        cartButton.backgroundColor = .clear
-        cartButton.setImage(AppDesign.Icon.cart.value)
-        cartButton.clipsToBounds = true
+        setupButton(button: cartButton, image: AppDesign.Icon.cart.value, constant: 20)
         cartButton.addTarget(self, action: #selector(cartButtonDidTap), for: .touchUpInside)
-        cartButton.widthAnchor.constraint(equalToConstant: 20).isActive = true
-        cartButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
         
         let width = view.frame.width
         let layout = UICollectionViewFlowLayout()
@@ -119,24 +128,16 @@ private extension ProductViewController {
          
         contentStackView.axis = .vertical
         contentStackView.alignment = .fill
+        contentStackView.distribution = .fill
         contentStackView.spacing = 15
-        
-        titleStackView.axis = .vertical
-        titleStackView.alignment = .fill
-        titleStackView.spacing = 0
         
         titleLabel.textAlignment = .center
         titleLabel.numberOfLines = 2
-        titleLabel.font = AppDesign.Font.bold.with(fontName: AppDesign.FontName.akzidenzGroteskPro.rawValue, size: 36)
+        titleLabel.font = AppDesign.FontName.akzidenzGroteskPro.boldWith(size: 36)
         titleLabel.textColor = AppDesign.Color.title.ui
         
         separatorView.backgroundColor = AppDesign.Color.separator.ui
         separatorView.heightAnchor.constraint(equalToConstant: 1).isActive = true
-        separatorView.widthAnchor.constraint(equalToConstant: (screenSize.width - 32)).isActive = true
-        
-        let spaceView = UIView()
-        spaceView.backgroundColor = AppDesign.Color.white.ui
-        spaceView.heightAnchor.constraint(equalToConstant: 5).isActive = true
         
         priceStackView.axis = .horizontal
         priceStackView.alignment = .fill
@@ -145,18 +146,17 @@ private extension ProductViewController {
         
         costLabel.text = "Стоимость:".localized()
         costLabel.textAlignment = .left
-        costLabel.font = AppDesign.Font.regular.with(fontName: AppDesign.FontName.roboto.rawValue, size: 18)
+        costLabel.font = AppDesign.FontName.roboto.regularWith(size: 18)
         costLabel.textColor = AppDesign.Color.title.ui
         
         priceLabel.textAlignment = .right
-        priceLabel.font = AppDesign.Font.bold.with(fontName: AppDesign.FontName.roboto.rawValue, size: 18)
+        priceLabel.font = AppDesign.FontName.roboto.boldWith(size: 18)
         priceLabel.textColor = AppDesign.Color.grey.ui
         
         addToCartButton.setTitle("ДОБАВИТЬ В КОРЗИНУ".localized())
         addToCartButton.contentEdgeInsets = UIEdgeInsets(top: 16, left: 24, bottom: 16, right: 24)
         addToCartButton.layer.cornerRadius = AppDesign.constants.cornerRadius
-        addToCartButton.titleLabel?.font = AppDesign.Font.medium.with(fontName: AppDesign.FontName.roboto.rawValue,
-                                                                      size: 18)
+        addToCartButton.titleLabel?.font = AppDesign.FontName.roboto.mediumWith(size: 18)
         addToCartButton.setTitleColor(AppDesign.Color.white.ui, for: .normal)
         addToCartButton.backgroundColor = AppDesign.Color.blue.ui
         addToCartButton.clipsToBounds = true
@@ -164,7 +164,7 @@ private extension ProductViewController {
         
         descriptionTextView.textAlignment = .left
         descriptionTextView.textColor = AppDesign.Color.black.ui
-        descriptionTextView.textContainerInset = UIEdgeInsets(top: 0.01, left: 0, bottom: 0.01, right: 0)
+        descriptionTextView.textContainerInset = UIEdgeInsets(top: 0.01, left: 12, bottom: 0.01, right: 12)
         descriptionTextView.isScrollEnabled = false
         descriptionTextView.isEditable = false
         
@@ -173,26 +173,28 @@ private extension ProductViewController {
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         contentScrollView.translatesAutoresizingMaskIntoConstraints = false
-        contentStackView.translatesAutoresizingMaskIntoConstraints = false
         backButton.translatesAutoresizingMaskIntoConstraints = false
         cartButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(collectionView)
         view.addSubview(backButton)
         view.addSubview(cartButton)
         view.addSubview(contentScrollView)
-        contentScrollView.addSubview(contentStackView)
+        contentScrollView.fill(view: contentStackView)
         setupViewConstraints()
+        
+        contentStackView.addArrangedSubview(titleLabel)
+        contentStackView.setCustomSpacing(0, after: titleLabel)
+        contentStackView.addArrangedSubview(separatorView)
+        contentStackView.setCustomSpacing(5, after: separatorView)
+        contentStackView.addArrangedSubview(priceStackView)
+        contentStackView.addArrangedSubview(addToCartButton)
+        contentStackView.setCustomSpacing(28, after: addToCartButton)
+        contentStackView.addArrangedSubview(descriptionTextView)
+        contentStackView.addArrangedSubview(emptyView)
         
         priceStackView.addArrangedSubview(costLabel)
         priceStackView.addArrangedSubview(priceLabel)
-        titleStackView.addArrangedSubview(titleLabel)
-        titleStackView.addArrangedSubview(separatorView)
-        titleStackView.addArrangedSubview(spaceView)
-        titleStackView.addArrangedSubview(priceStackView)
-        contentStackView.addArrangedSubview(titleStackView)
-        contentStackView.addArrangedSubview(addToCartButton)
-        contentStackView.addArrangedSubview(descriptionTextView)
-        contentStackView.addArrangedSubview(emptyView)
+        
     }
     
     func setupViewConstraints() {
@@ -205,20 +207,23 @@ private extension ProductViewController {
         contentScrollView.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 8).isActive = true
         contentScrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
         contentScrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
-        contentScrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0)
+        contentScrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -12)
             .isActive = true
-        
-        contentStackView.topAnchor.constraint(equalTo: contentScrollView.topAnchor, constant: 0).isActive = true
-        contentStackView.leadingAnchor.constraint(equalTo: contentScrollView.leadingAnchor, constant: 0).isActive = true
-        contentStackView.trailingAnchor.constraint(equalTo: contentScrollView.trailingAnchor, constant: 0)
-            .isActive = true
-        contentStackView.bottomAnchor.constraint(equalTo: contentScrollView.bottomAnchor, constant: 0).isActive = true
         
         backButton.topAnchor.constraint(equalTo: collectionView.topAnchor, constant: 38).isActive = true
         backButton.leadingAnchor.constraint(equalTo: collectionView.leadingAnchor, constant: 16).isActive = true
         
         cartButton.topAnchor.constraint(equalTo: collectionView.topAnchor, constant: 38).isActive = true
         cartButton.trailingAnchor.constraint(equalTo: collectionView.trailingAnchor, constant: -16).isActive = true
+    }
+    
+    func setupButton(button: VButton, image: UIImage, constant: CGFloat) {
+        
+        button.backgroundColor = .clear
+        button.setImage(image)
+        button.clipsToBounds = true
+        button.widthAnchor.constraint(equalToConstant: constant).isActive = true
+        button.heightAnchor.constraint(equalToConstant: constant).isActive = true
     }
     
     // MARK: - Actions

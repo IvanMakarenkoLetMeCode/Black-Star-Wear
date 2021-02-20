@@ -49,12 +49,12 @@ extension CartViewController: CartViewInput {
     
     func setupContent() {
         
-        var priceInt: [Int] = []
+        var priceDouble: [Double] = []
         for cell in output.cells {
-            priceInt.append(Int(removeCharacterAfterDot(string: cell.price)) ?? 0)
+            priceDouble.append(cell.price)
         }
         
-        let priceSummary = priceInt.map{$0}.reduce(0, +)
+        let priceSummary = priceDouble.map{$0}.reduce(0, +)
         if priceSummary > 0 {
 
             let priceString = String(priceSummary)
@@ -106,8 +106,6 @@ private extension CartViewController {
         contentStackView.alignment = .fill
         contentStackView.spacing = 0
         
-        let emptyView = UIView()
-        
         priceStackView.axis = .horizontal
         priceStackView.alignment = .center
         priceStackView.spacing = 0
@@ -116,11 +114,11 @@ private extension CartViewController {
         
         costLabel.text = "Итого:".localized()
         costLabel.textAlignment = .left
-        costLabel.font = AppDesign.Font.regular.with(fontName: AppDesign.FontName.roboto.rawValue, size: 18)
+        costLabel.font = AppDesign.FontName.roboto.regularWith(size: 18)
         costLabel.textColor = AppDesign.Color.title.ui
         
         priceLabel.textAlignment = .right
-        priceLabel.font = AppDesign.Font.bold.with(fontName: AppDesign.FontName.roboto.rawValue, size: 18)
+        priceLabel.font = AppDesign.FontName.roboto.boldWith(size: 18)
         priceLabel.textColor = AppDesign.Color.grey.ui
         
         let separatorView = UIView()
@@ -131,24 +129,10 @@ private extension CartViewController {
         buttonStackView.alignment = .fill
         buttonStackView.spacing = 0
         
-        checkoutButton.setTitle("Оформить заказ".localized())
-        checkoutButton.contentEdgeInsets = UIEdgeInsets(top: 16, left: 32, bottom: 16, right: 32)
-        checkoutButton.layer.cornerRadius = AppDesign.constants.largeCornerRadius
-        checkoutButton.titleLabel?.font = AppDesign.Font.medium.with(fontName: AppDesign.FontName.roboto.rawValue,
-                                                                      size: 18)
-        checkoutButton.setTitleColor(AppDesign.Color.white.ui, for: .normal)
-        checkoutButton.backgroundColor = AppDesign.Color.blue.ui
-        checkoutButton.clipsToBounds = true
+        setupButton(button: checkoutButton, tittle: "Оформить заказ")
         checkoutButton.addTarget(self, action: #selector(checkoutButtonDidTap), for: .touchUpInside)
         
-        onMainButton.setTitle("На главную".localized())
-        onMainButton.contentEdgeInsets = UIEdgeInsets(top: 16, left: 32, bottom: 16, right: 32)
-        onMainButton.layer.cornerRadius = AppDesign.constants.largeCornerRadius
-        onMainButton.titleLabel?.font = AppDesign.Font.medium.with(fontName: AppDesign.FontName.roboto.rawValue,
-                                                                      size: 18)
-        onMainButton.setTitleColor(AppDesign.Color.white.ui, for: .normal)
-        onMainButton.backgroundColor = AppDesign.Color.blue.ui
-        onMainButton.clipsToBounds = true
+        setupButton(button: onMainButton, tittle: "На главную")
         onMainButton.addTarget(self, action: #selector(onMainButtonDidTap), for: .touchUpInside)
         
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -158,7 +142,6 @@ private extension CartViewController {
         view.addSubview(contentStackView)
         view.addSubview(buttonStackView)
         
-        contentStackView.addArrangedSubview(emptyView)
         contentStackView.addArrangedSubview(priceStackView)
         contentStackView.addArrangedSubview(separatorView)
         
@@ -191,17 +174,15 @@ private extension CartViewController {
             .isActive = true
     }
     
-    func removeCharacterAfterDot(string: String) -> String {
+    func setupButton(button: VButton, tittle: String) {
         
-        var removeString = string
-        if let dotRange = removeString.range(of: ".") {
-            
-            removeString.removeSubrange(dotRange.lowerBound ..< removeString.endIndex)
-            return removeString
-        }
-        else {
-            return ""
-        }
+        button.setTitle(tittle.localized())
+        button.contentEdgeInsets = UIEdgeInsets(top: 16, left: 32, bottom: 16, right: 32)
+        button.layer.cornerRadius = AppDesign.constants.largeCornerRadius
+        button.titleLabel?.font = AppDesign.FontName.roboto.mediumWith(size: 18)
+        button.setTitleColor(AppDesign.Color.white.ui, for: .normal)
+        button.backgroundColor = AppDesign.Color.blue.ui
+        button.clipsToBounds = true
     }
     
     // MARK: - Actions

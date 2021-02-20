@@ -43,19 +43,30 @@ extension ProductPresenter: ProductViewOutput {
     
     func cartButtonDidTap() {
         
-        router?.showCart(navigationBarHidden: true, products: [])
+        router?.dismissViewController()
+        router?.showCart(products: [])
     }
     
     func backButtonDidTap() {
         
-        router?.popViewController(isNavigationBarHidden: false)
+        router?.dismissViewController()
     }
     
     func viewDidLoad() {
 
         setupInitialState()
     }
-
+    
+    func viewWillAppear() {
+        
+        view?.navigationBarIsHidden(true)
+    }
+    
+    func viewWillDisappear() {
+        
+        view?.navigationBarIsHidden(false)
+    }
+    
 }
 
 // MARK: - Private methods

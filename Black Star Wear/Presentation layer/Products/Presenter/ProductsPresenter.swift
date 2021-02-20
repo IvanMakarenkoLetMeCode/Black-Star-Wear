@@ -45,12 +45,12 @@ extension ProductsPresenter: ProductsViewOutput {
     
     func cartButtonDidTap() {
         
-        router?.showCart(navigationBarHidden: false, products: cellsProducts)
+        router?.showCart(products: cellsProducts)
     }
     
     func backButtonDidTap() {
         
-        router?.popViewController(isNavigationBarHidden: false)
+        router?.popViewController()
     }
 
     func viewDidLoad() {
@@ -92,7 +92,7 @@ private extension ProductsPresenter {
                                                           productImages: product.productImages,
                                                           offers: product.offers,
                                                           recommendedProductIDs: product.recommendedProductIDs,
-                                                          price: product.price ?? "",
+                                                          price: Double(product.price ?? "") ?? 0,
                                                           attributes: product.attributes))
         }
         

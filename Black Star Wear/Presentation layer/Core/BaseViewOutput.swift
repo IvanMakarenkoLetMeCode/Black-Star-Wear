@@ -10,9 +10,13 @@ import Foundation
 protocol BaseViewOutput: class {
 
     func viewDidLoad()
+    func viewWillAppear()
+    func viewWillDisappear()
 }
 
 extension BaseViewOutput {
     
     func viewDidLoad() {}
+    func viewWillAppear() {}
+    func viewWillDisappear() {}
 }

@@ -44,12 +44,12 @@ extension SubcategoriesPresenter: SubcategoriesViewOutput {
     
     func cartButtonDidTap() {
         
-        router?.showCart(navigationBarHidden: false, products: [])
+        router?.showCart(products: [])
     }
     
     func backButtonDidTap() {
         
-        router?.popViewController(isNavigationBarHidden: false)
+        router?.popViewController()
     }
     
     func viewDidLoad() {

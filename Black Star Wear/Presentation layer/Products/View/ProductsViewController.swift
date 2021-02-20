@@ -53,7 +53,7 @@ extension ProductsViewController: UICollectionViewDataSource {
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: productsCellIdentifier,
                                                             for: indexPath) as? ProductsViewCell else { fatalError() }
-        let product = output.cells[indexPath.row]
+        let product = output.cells[indexPath.item]
         cell.configureCell(model: product)
         return cell
     }
@@ -84,7 +84,7 @@ private extension ProductsViewController {
         layout.minimumInteritemSpacing = 0
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         layout.itemSize = CGSize(width: width, height: 230)
-        let collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
+        let collectionView = UICollectionView(frame: view.frame, collectionViewLayout: layout)
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.backgroundColor = AppDesign.Color.white.ui

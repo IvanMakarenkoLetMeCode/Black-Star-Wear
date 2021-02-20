@@ -19,9 +19,10 @@ protocol RouterProtocol: RouterMain {
     func showSubcategories(subcategories: [Subcategory])
     func showProducts(id: String)
     func showProduct(product: ProductsCellData)
-    func showCart(navigationBarHidden: Bool, products: [ProductsCellData])
+    func showCart(products: [ProductsCellData])
+    func popViewController()
+    func dismissViewController()
     func popToRoute()
-    func popViewController(isNavigationBarHidden: Bool)
 }
 
 class Router: RouterProtocol {
@@ -66,26 +67,30 @@ class Router: RouterProtocol {
         if let navigationController = navigationController {
             guard let productViewController = assemblyBuilder?
                     .createProductModule(product: product, router: self) else { return }
-            navigationController.isNavigationBarHidden = true
-            navigationController.pushViewController(productViewController, animated: true)
+            navigationController.present(productViewController, animated: true)
         }
     }
     
-    func showCart(navigationBarHidden: Bool, products: [ProductsCellData]) {
+    func showCart(products: [ProductsCellData]) {
         
         if let navigationController = navigationController {
             guard let cartViewController = assemblyBuilder?
-                    .createCartModule(navigationBarHidden: navigationBarHidden, products: products, router: self) else { return }
-            navigationController.isNavigationBarHidden = false
+                    .createCartModule(products: products, router: self) else { return }
             navigationController.pushViewController(cartViewController, animated: true)
         }
     }
     
-    func popViewController(isNavigationBarHidden: Bool) {
+    func popViewController() {
         
         if let navigationController = navigationController {
-            navigationController.isNavigationBarHidden = isNavigationBarHidden
             navigationController.popViewController(animated: true)
+        }
+    }
+    
+    func dismissViewController() {
+        
+        if let navigationController = navigationController {
+            navigationController.dismiss(animated: true)
         }
     }
     

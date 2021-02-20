@@ -16,7 +16,7 @@ class ProductsService {
     
     // MARK: - Private properties
     
-    private let productsProvider = MoyaProvider<NetworkService>()
+    private let productsProvider = MoyaProvider<NetworkTarget>()
     private var id: String
     
     init(id: String) {
@@ -31,9 +31,7 @@ extension ProductsService {
     
     func getProducts(completion: @escaping (Products?) -> Void) {
         
-        productsProvider.request(.products(id: id)) { [weak self] result in
-            
-            guard let self = self else { return }
+        productsProvider.request(.products(id: id)) { result in
                 
                 switch result {
                 case .success(let response):

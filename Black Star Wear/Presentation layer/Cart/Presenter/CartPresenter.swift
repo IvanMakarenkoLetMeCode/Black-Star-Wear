@@ -16,14 +16,12 @@ class CartPresenter {
     
     // MARK: - Private properties
     
-    private var navigationBarHidden: Bool
     private var products: [ProductsCellData]
     
     // MARK: - Lifecycle
     
-    required init(view: CartViewInput, navigationBarHidden: Bool, products: [ProductsCellData], router: RouterProtocol) {
+    required init(view: CartViewInput, products: [ProductsCellData], router: RouterProtocol) {
         self.view = view
-        self.navigationBarHidden = navigationBarHidden
         self.products = products
         self.router = router
     }
@@ -35,17 +33,12 @@ extension CartPresenter: CartViewOutput {
     
     var cells: [ProductsCellData] {
         
-        get {
-            products
-        }
-        set {
-            products = newValue
-        }
+        return products
     }
     
     func crossButtonDidTap() {
         
-        router?.popViewController(isNavigationBarHidden: navigationBarHidden)
+        router?.popViewController()
     }
     
     func checkoutButtonDidTap() {

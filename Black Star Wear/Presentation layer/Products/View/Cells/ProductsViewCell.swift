@@ -27,6 +27,11 @@ class ProductsViewCell: UICollectionViewCell {
         setupUI()
     }
     
+    override func prepareForReuse() {
+        
+        productImageView.sd_cancelCurrentImageLoad()
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -35,17 +40,11 @@ class ProductsViewCell: UICollectionViewCell {
         
         self.model = model
         titleLabel.text = model.name
-        priceLabel.text = model.price.priceFormate()
-        if !model.mainImage.isEmpty {
-            let urlString = "https://blackstarshop.ru/" + model.mainImage
-            let url = URL(string: urlString)
-            productImageView.setImage(with: url, placeholderImage: AppDesign.Icon.categoryPlaceholder.value)
-        }
-        else {
-            let url = URL(string: model.mainImage)
-            productImageView.setImage(with: url, placeholderImage: AppDesign.Icon.categoryPlaceholder.value)
-        }
-        
+        let priceString = String(model.price)
+        priceLabel.text = priceString.priceFormate()
+        let urlString = "https://blackstarshop.ru/" + model.mainImage
+        let url = URL(string: urlString)
+        productImageView.setImage(with: url, placeholderImage: AppDesign.Icon.categoryPlaceholder.value)
     }
     
 }
@@ -63,7 +62,7 @@ private extension ProductsViewCell {
 
         titleLabel.textAlignment = .center
         titleLabel.numberOfLines = 1
-        titleLabel.font = AppDesign.Font.regular.with(fontName: AppDesign.FontName.sfProDisplay.rawValue, size: 16)
+        titleLabel.font = AppDesign.FontName.sfProDisplay.regularWith(size: 16)
         titleLabel.textColor = AppDesign.Color.title.ui
         
         productImageView.contentMode = .scaleAspectFill
@@ -73,7 +72,7 @@ private extension ProductsViewCell {
 
         priceLabel.contentMode = .left
         priceLabel.numberOfLines = 1
-        priceLabel.font = AppDesign.Font.regular.with(fontName: AppDesign.FontName.sfProDisplay.rawValue, size: 16)
+        priceLabel.font = AppDesign.FontName.sfProDisplay.regularWith(size: 16)
         priceLabel.textColor = AppDesign.Color.title.ui
 
         contentStackView.addArrangedSubview(titleLabel)

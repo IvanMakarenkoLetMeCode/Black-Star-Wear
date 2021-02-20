@@ -9,5 +9,6 @@ import Foundation
 
 protocol ProductViewInput: BaseViewInput {
     
+    func navigationBarIsHidden(_ bool: Bool)
     func setupContent()
 }

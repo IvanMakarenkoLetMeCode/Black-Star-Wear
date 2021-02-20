@@ -21,7 +21,7 @@ protocol ProductsCellData {
     var productImages: [ProductImages] { get }
     var offers: [Offers] { get }
     var recommendedProductIDs: [RecommendedProductIDs] { get }
-    var price: String { get }
+    var price: Double { get }
     var attributes: [Attributes] { get }
 }
 
@@ -39,6 +39,6 @@ struct ProductsCellDataProducer: ProductsCellData {
     var productImages: [ProductImages]
     var offers: [Offers]
     var recommendedProductIDs: [RecommendedProductIDs]
-    var price: String
+    var price: Double
     var attributes: [Attributes]
 }

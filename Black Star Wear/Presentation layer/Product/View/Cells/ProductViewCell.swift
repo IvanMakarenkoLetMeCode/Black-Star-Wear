@@ -12,7 +12,6 @@ class ProductViewCell: UICollectionViewCell {
     // MARK: - Private properties
     
     private var productImageView = URLImageView()
-    private let screenSize: CGRect = UIScreen.main.bounds
     private var model: ProductImages?
     
     // MARK: - Lifecycle
@@ -23,6 +22,11 @@ class ProductViewCell: UICollectionViewCell {
         setupUI()
     }
     
+    override func prepareForReuse() {
+        
+        productImageView.sd_cancelCurrentImageLoad()
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -30,16 +34,9 @@ class ProductViewCell: UICollectionViewCell {
     func configureCell(model: ProductImages) {
         
         self.model = model
-        if let imageURL = model.imageURL {
-            let urlString = "https://blackstarshop.ru/" + imageURL
-            let url = URL(string: urlString)
-            productImageView.setImage(with: url, placeholderImage: AppDesign.Icon.categoryPlaceholder.value)
-        }
-        else {
-            let url = URL(string: model.imageURL ?? "")
-            productImageView.setImage(with: url, placeholderImage: AppDesign.Icon.categoryPlaceholder.value)
-        }
-        
+        let urlString = "https://blackstarshop.ru/" + (model.imageURL ?? "")
+        let url = URL(string: urlString)
+        productImageView.setImage(with: url, placeholderImage: AppDesign.Icon.categoryPlaceholder.value)
     }
     
 }
@@ -52,8 +49,6 @@ private extension ProductViewCell {
         contentView.backgroundColor = AppDesign.Color.white.ui
         contentView.fill(view: productImageView)
         productImageView.contentMode = .scaleAspectFill
-        productImageView.widthAnchor.constraint(equalToConstant: screenSize.width).isActive = true
-        productImageView.heightAnchor.constraint(equalToConstant: screenSize.width).isActive = true
     }
     
 }

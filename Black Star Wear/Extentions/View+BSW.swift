@@ -1,5 +1,5 @@
 //
-//  View.swift
+//  View+BSW.swift
 //  Black Star Wear
 //
 //  Created by Ivan on 12.02.2021.

@@ -16,7 +16,7 @@ class CategoriesService {
     
     // MARK: - Private properties
     
-    private let categoriesProvider = MoyaProvider<NetworkService>()
+    private let categoriesProvider = MoyaProvider<NetworkTarget>()
 }
 
 // MARK: - Public methods
@@ -24,9 +24,7 @@ extension CategoriesService {
     
     func getCategories(completion: @escaping (Categories?) -> Void) {
         
-        categoriesProvider.request(.categories) { [weak self] result in
-            
-            guard let self = self else { return }
+        categoriesProvider.request(.categories) { result in
                 
                 switch result {
                 case .success(let response):

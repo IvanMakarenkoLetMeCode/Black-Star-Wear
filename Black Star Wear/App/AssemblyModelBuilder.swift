@@ -12,7 +12,7 @@ protocol AssemblyBuilderProtocol {
     func createSubcategoriesModule(subcategories: [Subcategory], router: RouterProtocol) -> UIViewController
     func createProductsModule(id: String, router: RouterProtocol) -> UIViewController
     func createProductModule(product: ProductsCellData, router: RouterProtocol) -> UIViewController
-    func createCartModule(navigationBarHidden: Bool, products: [ProductsCellData], router: RouterProtocol) -> UIViewController
+    func createCartModule(products: [ProductsCellData], router: RouterProtocol) -> UIViewController
     
 }
 
@@ -54,11 +54,11 @@ class AssemblyModelBuilder: AssemblyBuilderProtocol {
         return view
     }
     
-    func createCartModule(navigationBarHidden: Bool, products: [ProductsCellData], router: RouterProtocol) -> UIViewController {
+    func createCartModule(products: [ProductsCellData], router: RouterProtocol) -> UIViewController {
         
         let view = CartViewController()
         view.title = "Корзина".localized()
-        let presenter = CartPresenter(view: view, navigationBarHidden: navigationBarHidden, products: products, router: router)
+        let presenter = CartPresenter(view: view, products: products, router: router)
         view.output = presenter
         return view
     }

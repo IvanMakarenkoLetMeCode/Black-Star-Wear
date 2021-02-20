@@ -48,7 +48,7 @@ extension CategoriesPresenter: CategoriesViewOutput {
     
     func cartButtonDidTap() {
         
-        router?.showCart(navigationBarHidden: false, products: [])
+        router?.showCart(products: [])
     }
     
     func viewDidLoad() {

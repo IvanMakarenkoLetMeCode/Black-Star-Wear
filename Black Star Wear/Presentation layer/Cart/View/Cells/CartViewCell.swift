@@ -33,6 +33,11 @@ class CartViewCell: UITableViewCell {
         setupUI()
     }
     
+    override func prepareForReuse() {
+        
+        productImageView.sd_cancelCurrentImageLoad()
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -43,16 +48,11 @@ class CartViewCell: UITableViewCell {
         titleLabel.text = model.name
         sizeLabel.text = model.offers.first?.size
         colorLabel.text = model.colorName
-        priceLabel.text = model.price.priceFormate()
-        if !model.mainImage.isEmpty {
-            let urlString = "https://blackstarshop.ru/" + model.mainImage
-            let url = URL(string: urlString)
-            productImageView.setImage(with: url, placeholderImage: AppDesign.Icon.categoryPlaceholder.value)
-        }
-        else {
-            let url = URL(string: model.mainImage)
-            productImageView.setImage(with: url, placeholderImage: AppDesign.Icon.categoryPlaceholder.value)
-        }
+        let priceString = String(model.price)
+        priceLabel.text = priceString.priceFormate()
+        let urlString = "https://blackstarshop.ru/" + model.mainImage
+        let url = URL(string: urlString)
+        productImageView.setImage(with: url, placeholderImage: AppDesign.Icon.categoryPlaceholder.value)
     }
     
 }
@@ -70,8 +70,8 @@ private extension CartViewCell {
         productImageView.heightAnchor.constraint(equalToConstant: 80).isActive = true
         
         contentStackView.axis = .horizontal
-        contentStackView.alignment = .fill
-        contentStackView.spacing = 0
+        contentStackView.alignment = .center
+        contentStackView.spacing = 10
         
         mainStackView.axis = .vertical
         mainStackView.alignment = .fill
@@ -79,7 +79,7 @@ private extension CartViewCell {
         
         titleLabel.textAlignment = .left
         titleLabel.numberOfLines = 1
-        titleLabel.font = AppDesign.Font.regular.with(fontName: AppDesign.FontName.sfProDisplay.rawValue, size: 16)
+        titleLabel.font = AppDesign.FontName.sfProDisplay.regularWith(size: 16)
         titleLabel.textColor = AppDesign.Color.title.ui
         
         sizeStackView.axis = .horizontal
@@ -89,15 +89,13 @@ private extension CartViewCell {
         titleSizeLabel.text = "Размер: ".localized()
         titleSizeLabel.textAlignment = .left
         titleSizeLabel.numberOfLines = 1
-        titleSizeLabel.font = AppDesign.Font.regular.with(fontName: AppDesign.FontName.sfProDisplay.rawValue, size: 11)
+        titleSizeLabel.font = AppDesign.FontName.sfProDisplay.regularWith(size: 11)
         titleSizeLabel.textColor = AppDesign.Color.grey.ui
         
         sizeLabel.textAlignment = .left
         sizeLabel.numberOfLines = 1
-        sizeLabel.font = AppDesign.Font.regular.with(fontName: AppDesign.FontName.sfProDisplay.rawValue, size: 11)
+        sizeLabel.font = AppDesign.FontName.sfProDisplay.regularWith(size: 11)
         sizeLabel.textColor = AppDesign.Color.grey.ui
-        
-        let emptySizeView = UIView()
         
         colorStackView.axis = .horizontal
         colorStackView.alignment = .leading
@@ -106,22 +104,20 @@ private extension CartViewCell {
         tittleColorLabel.text = "Цвет: ".localized()
         tittleColorLabel.textAlignment = .left
         tittleColorLabel.numberOfLines = 1
-        tittleColorLabel.font = AppDesign.Font.regular.with(fontName: AppDesign.FontName.sfProDisplay.rawValue, size: 11)
+        tittleColorLabel.font = AppDesign.FontName.sfProDisplay.regularWith(size: 11)
         tittleColorLabel.textColor = AppDesign.Color.grey.ui
         
         colorLabel.textAlignment = .left
         colorLabel.numberOfLines = 1
-        colorLabel.font = AppDesign.Font.regular.with(fontName: AppDesign.FontName.sfProDisplay.rawValue, size: 11)
+        colorLabel.font = AppDesign.FontName.sfProDisplay.regularWith(size: 11)
         colorLabel.textColor = AppDesign.Color.grey.ui
         
         let emptyView = UIView()
         
         priceLabel.textAlignment = .left
         priceLabel.numberOfLines = 1
-        priceLabel.font = AppDesign.Font.regular.with(fontName: AppDesign.FontName.sfProDisplay.rawValue, size: 15)
+        priceLabel.font = AppDesign.FontName.sfProDisplay.regularWith(size: 15)
         priceLabel.textColor = AppDesign.Color.title.ui
-        
-        let spaceView = UIView()
         
         deleteButton.backgroundColor = .clear
         deleteButton.setImage(AppDesign.Icon.bin.value)
@@ -130,44 +126,23 @@ private extension CartViewCell {
         deleteButton.widthAnchor.constraint(equalToConstant: 14).isActive = true
         deleteButton.heightAnchor.constraint(equalToConstant: 18).isActive = true
         
-        productImageView.translatesAutoresizingMaskIntoConstraints = false
-        contentStackView.translatesAutoresizingMaskIntoConstraints = false
-        deleteButton.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(productImageView)
-        contentView.addSubview(contentStackView)
-        contentView.addSubview(deleteButton)
-        
+        contentView.fill(view: contentStackView, insets: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10))
+        contentStackView.addArrangedSubview(productImageView)
         contentStackView.addArrangedSubview(mainStackView)
-        contentStackView.addArrangedSubview(spaceView)
+        contentStackView.addArrangedSubview(deleteButton)
+        contentStackView.setCustomSpacing(10, after: deleteButton)
         
         mainStackView.addArrangedSubview(titleLabel)
         mainStackView.addArrangedSubview(sizeStackView)
         mainStackView.addArrangedSubview(colorStackView)
-        mainStackView.addArrangedSubview(emptyView)
         mainStackView.addArrangedSubview(priceLabel)
         
         sizeStackView.addArrangedSubview(titleSizeLabel)
         sizeStackView.addArrangedSubview(sizeLabel)
-        sizeStackView.addArrangedSubview(emptySizeView)
+        sizeStackView.addArrangedSubview(emptyView)
         
         colorStackView.addArrangedSubview(tittleColorLabel)
         colorStackView.addArrangedSubview(colorLabel)
-        setupViewConstraints()
-    }
-    
-    func setupViewConstraints() {
-        
-        productImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10).isActive = true
-        productImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10).isActive = true
-        productImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10).isActive = true
-        
-        contentStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10).isActive = true
-        contentStackView.leadingAnchor.constraint(equalTo: productImageView.trailingAnchor, constant: 10).isActive = true
-        contentStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10).isActive = true
-        
-        deleteButton.leadingAnchor.constraint(equalTo: contentStackView.trailingAnchor, constant: 10).isActive = true
-        deleteButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10).isActive = true
-        deleteButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
     }
     
     // MARK: - Actions
