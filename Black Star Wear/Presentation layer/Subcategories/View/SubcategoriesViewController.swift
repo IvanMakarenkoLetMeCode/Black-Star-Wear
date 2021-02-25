@@ -19,6 +19,7 @@ class SubcategoriesViewController: UIViewController {
     // MARK: - Private properties
     
     private let tableView = UITableView()
+    private var cartButtonItem = UIBarButtonItem()
     private let subcategoriesCellIdentifier = String(describing: SubcategoriesViewCell.self)
     
     // MARK: - Lifecycle
@@ -38,6 +39,13 @@ extension SubcategoriesViewController: SubcategoriesViewInput {
     func tableViewReloadData() {
         
         tableView.reloadData()
+    }
+    
+    func cartNotEmpty(color: UIColor, image: UIImage?, title: String?) {
+        
+        cartButtonItem.title = title
+        cartButtonItem.image = image
+        cartButtonItem.tintColor = color
     }
     
 }
@@ -85,7 +93,7 @@ private extension SubcategoriesViewController {
         tableView.tableFooterView = UIView()
         tableView.separatorStyle = .singleLine
         
-        let cartButtonItem = UIBarButtonItem(image: AppDesign.Icon.cart.value, style: .plain, target: self,
+        cartButtonItem = UIBarButtonItem(image: AppDesign.Icon.cart.value, style: .plain, target: self,
                                              action: #selector(cartButtonDidTap))
         let backButtonItem = UIBarButtonItem(image: AppDesign.Icon.backButton.value, style: .plain, target: self,
                                              action: #selector(backButtonDidTap))

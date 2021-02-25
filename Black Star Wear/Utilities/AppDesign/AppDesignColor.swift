@@ -23,6 +23,10 @@ extension AppDesign {
         case grey = "co_grey"
         /// Hex: #007AFF
         case blue = "co_blue"
+        /// Hex: #FF0000
+        case red = "co_red"
+        /// Opacity = 0
+        case clear = "co_clear"
         /// Hex: #E0E0E0
         case separator = "co_separator"
         

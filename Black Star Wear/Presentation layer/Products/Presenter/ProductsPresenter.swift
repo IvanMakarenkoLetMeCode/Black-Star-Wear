@@ -14,6 +14,7 @@ class ProductsPresenter {
 
     weak var view: ProductsViewInput?
     var router: RouterProtocol?
+    var token: NotificationToken?
     let realm = try! Realm()
 
     // MARK: - Private properties
@@ -75,7 +76,7 @@ private extension ProductsPresenter {
                 self.buildCells(products: success)
             }
         }
-        
+        addCartWatcher()
     }
 
     func buildCells(products: Products) {
@@ -102,5 +103,58 @@ private extension ProductsPresenter {
         view?.collectionViewReloadData()
 
     }
+    
+    func addCartWatcher() {
 
+        let results = realm.objects(CartDBObject.self)
+        token = results.observe { change in
+            
+            switch change {
+            case .initial(let objects):
+                
+                if objects.count == 0 {
+
+                    self.view?.cartNotEmpty(color: AppDesign.Color.grey.ui,
+                                            image: AppDesign.Icon.cart.value,
+                                            title: nil)
+                }
+                else if objects.count > 0 && objects.count < 100 {
+
+                    self.view?.cartNotEmpty(color: AppDesign.Color.red.ui,
+                                            image: nil,
+                                            title: String(objects.count))
+                }
+                else {
+
+                    self.view?.cartNotEmpty(color: AppDesign.Color.red.ui,
+                                            image: nil,
+                                            title: "..")
+                }
+            case .update(let objects, _, _, _):
+                
+                if objects.count == 0 {
+
+                    self.view?.cartNotEmpty(color: AppDesign.Color.grey.ui,
+                                            image: AppDesign.Icon.cart.value,
+                                            title: nil)
+                }
+                else if objects.count > 0 && objects.count < 100 {
+
+                    self.view?.cartNotEmpty(color: AppDesign.Color.red.ui,
+                                            image: nil,
+                                            title: String(objects.count))
+                }
+                else {
+
+                    self.view?.cartNotEmpty(color: AppDesign.Color.red.ui,
+                                            image: nil,
+                                            title: "..")
+                }
+            case .error(let error):
+                
+                fatalError("\(error)")
+            }
+        }
+    }
+    
 }

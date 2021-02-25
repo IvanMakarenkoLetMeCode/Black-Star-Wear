@@ -19,6 +19,7 @@ class CategoriesViewController: UIViewController {
     // MARK: - Private properties
     
     private let tableView = UITableView()
+    private var cartButtonItem = UIBarButtonItem()
     private let categoriesCellIdentifier = String(describing: CategoriesViewCell.self)
     
     // MARK: - Lifecycle
@@ -38,6 +39,13 @@ extension CategoriesViewController: CategoriesViewInput {
     func tableViewReloadData() {
         
         tableView.reloadData()
+    }
+    
+    func cartNotEmpty(color: UIColor, image: UIImage?, title: String?) {
+        
+        cartButtonItem.title = title
+        cartButtonItem.image = image
+        cartButtonItem.tintColor = color
     }
     
 }
@@ -94,8 +102,9 @@ private extension CategoriesViewController {
         tableView.tableFooterView = UIView()
         tableView.separatorStyle = .singleLine
         
-        let cartButtonItem = UIBarButtonItem(image: AppDesign.Icon.cart.value, style: .plain, target: self,
+        cartButtonItem = UIBarButtonItem(image: AppDesign.Icon.cart.value, style: .plain, target: self,
                                              action: #selector(cartButtonDidTap))
+        
         self.navigationItem.rightBarButtonItem = cartButtonItem
         self.navigationItem.rightBarButtonItem?.tintColor = AppDesign.Color.grey.ui
     }

@@ -5,9 +5,10 @@
 //  Created by Ivan on 17.02.2021.
 //
 
-import Foundation
+import UIKit
 
 protocol ProductsViewInput: BaseViewInput {
     
     func collectionViewReloadData()
+    func cartNotEmpty(color: UIColor, image: UIImage?, title: String?)
 }

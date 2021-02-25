@@ -15,6 +15,7 @@ class ProductPresenter {
     weak var view: ProductViewInput?
     var router: RouterProtocol?
     var product: Product!
+    var token: NotificationToken?
     var realm = try! Realm()
     
     // MARK: - Private properties
@@ -105,6 +106,7 @@ private extension ProductPresenter {
         
         buildCells()
         view?.setupContent()
+        addCartWatcher()
     }
     
     func buildCells() {
@@ -130,6 +132,71 @@ private extension ProductPresenter {
                                                offers: product.offers,
                                                price: (Double(product.price) ?? 0))
         
+    }
+    
+    func addCartWatcher() {
+
+        let results = realm.objects(CartDBObject.self)
+        token = results.observe { change in
+            
+            switch change {
+            case .initial(let objects):
+                
+                if objects.count == 0 {
+
+                    self.view?.cartNotEmpty(color: .clear,
+                                            image: AppDesign.Icon.cart.value,
+                                            cornerRadius: 0,
+                                            title: nil,
+                                            textSize: nil)
+                }
+                else if objects.count > 0 && objects.count < 100 {
+
+                    self.view?.cartNotEmpty(color: AppDesign.Color.red.ui,
+                                            image: nil,
+                                            cornerRadius: 10,
+                                            title: String(objects.count),
+                                            textSize: 12)
+                }
+                else {
+
+                    self.view?.cartNotEmpty(color: AppDesign.Color.red.ui,
+                                            image: nil,
+                                            cornerRadius: 10,
+                                            title: "..",
+                                            textSize: 16)
+                }
+            case .update(let objects, _, _, _):
+                
+                if objects.count == 0 {
+
+                    self.view?.cartNotEmpty(color: .clear,
+                                            image: AppDesign.Icon.cart.value,
+                                            cornerRadius: 0,
+                                            title: nil,
+                                            textSize: nil)
+                }
+                else if objects.count > 0 && objects.count < 100 {
+
+                    self.view?.cartNotEmpty(color: AppDesign.Color.red.ui,
+                                            image: nil,
+                                            cornerRadius: 10,
+                                            title: String(objects.count),
+                                            textSize: 12)
+                }
+                else {
+
+                    self.view?.cartNotEmpty(color: AppDesign.Color.red.ui,
+                                            image: nil,
+                                            cornerRadius: 10,
+                                            title: "..",
+                                            textSize: 16)
+                }
+            case .error(let error):
+                
+                fatalError("\(error)")
+            }
+        }
     }
     
 }

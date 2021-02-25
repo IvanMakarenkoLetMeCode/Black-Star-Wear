@@ -75,6 +75,17 @@ extension ProductViewController: ProductViewInput {
         }
     }
     
+    func cartNotEmpty(color: UIColor, image: UIImage?, cornerRadius: CGFloat, title: String?, textSize: CGFloat?) {
+        
+        cartButton.backgroundColor = color
+        cartButton.setImage(image)
+        cartButton.layer.cornerRadius = cornerRadius
+        cartButton.setTitle(title)
+        if let textSize = textSize {
+            cartButton.titleLabel?.font = AppDesign.FontName.roboto.mediumWith(size: textSize)
+        }
+    }
+    
     func navigationBarIsHidden(_ bool: Bool) {
         
         navigationController?.isNavigationBarHidden = bool

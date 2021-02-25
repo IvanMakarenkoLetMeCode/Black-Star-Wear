@@ -19,6 +19,7 @@ class ProductsViewController: UIViewController {
     // MARK: - Private properties
     
     private var collectionView: UICollectionView!
+    private var cartButtonItem = UIBarButtonItem()
     private let productsCellIdentifier = String(describing: ProductsViewCell.self)
     
     // MARK: - Lifecycle
@@ -38,6 +39,13 @@ extension ProductsViewController: ProductsViewInput {
     func collectionViewReloadData() {
         
         collectionView.reloadData()
+    }
+    
+    func cartNotEmpty(color: UIColor, image: UIImage?, title: String?) {
+        
+        cartButtonItem.title = title
+        cartButtonItem.image = image
+        cartButtonItem.tintColor = color
     }
     
 }
@@ -92,7 +100,7 @@ private extension ProductsViewController {
         self.collectionView = collectionView
         view.fill(view: self.collectionView, insets: .init(top: 20, left: 16, bottom: 12, right: 16))
         
-        let cartButtonItem = UIBarButtonItem(image: AppDesign.Icon.cart.value, style: .plain, target: self,
+        cartButtonItem = UIBarButtonItem(image: AppDesign.Icon.cart.value, style: .plain, target: self,
                                              action: #selector(cartButtonDidTap))
         let backButtonItem = UIBarButtonItem(image: AppDesign.Icon.backButton.value, style: .plain, target: self,
                                              action: #selector(backButtonDidTap))
