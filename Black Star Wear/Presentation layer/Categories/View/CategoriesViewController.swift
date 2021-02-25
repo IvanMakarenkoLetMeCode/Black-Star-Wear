@@ -72,7 +72,7 @@ extension CategoriesViewController: UITableViewDelegate {
         }
         else {
             
-            output.onSubcategories(subcategories: output.cells[indexPath.row].subcategories)
+            output.onSubcategories(id: output.cells[indexPath.row].id)
         }
         
     }

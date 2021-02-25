@@ -9,7 +9,7 @@ import Foundation
 
 protocol ProductViewOutput: BaseViewOutput {
     
-    init(view: ProductViewInput, product: ProductsCellData, router: RouterProtocol)
+    init(view: ProductViewInput, id: String, router: RouterProtocol)
     var chosedProduct: ProductsCellData { get }
     func addToCartButtonDidTap()
     func cartButtonDidTap()

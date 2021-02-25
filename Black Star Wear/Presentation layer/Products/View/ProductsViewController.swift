@@ -66,7 +66,7 @@ extension ProductsViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         collectionView.deselectItem(at: indexPath, animated: true)
-        output.onProduct(product: output.cells[indexPath.row])
+        output.onProduct(id: output.cells[indexPath.row].id)
     }
     
 }

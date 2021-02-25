@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 class CategoriesPresenter {
     
@@ -13,6 +14,7 @@ class CategoriesPresenter {
     
     weak var view: CategoriesViewInput?
     var router: RouterProtocol?
+    let realm = try! Realm()
     
     // MARK: - Private properties
     
@@ -36,9 +38,9 @@ extension CategoriesPresenter: CategoriesViewOutput {
         return cellsCategories
     }
     
-    func onSubcategories(subcategories: [Subcategory]) {
+    func onSubcategories(id: String) {
         
-        router?.showSubcategories(subcategories: subcategories)
+        router?.showSubcategories(id: id)
     }
     
     func onProducts(id: String) {
@@ -48,7 +50,7 @@ extension CategoriesPresenter: CategoriesViewOutput {
     
     func cartButtonDidTap() {
         
-        router?.showCart(products: [])
+        router?.showCart()
     }
     
     func viewDidLoad() {
@@ -78,12 +80,15 @@ private extension CategoriesPresenter {
         
         for category in categories.categories {
             
+            let categoryDBObject = CategoryDBObject(model: category)
+            
+            try! realm.write {
+                realm.add(categoryDBObject, update: .all)
+            }
+            
             cellsCategories.append(CategoryCellDataProducer(id: category.id,
                                                        name: category.name,
-                                                       sortOrder: category.sortOrder ?? "",
                                                        image: category.image,
-                                                       iconImage: category.iconImage,
-                                                       iconImageActive: category.iconImageActive,
                                                        subcategories: category.subcategories))
             
         }

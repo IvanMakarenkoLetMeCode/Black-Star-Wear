@@ -9,7 +9,7 @@ import Foundation
 
 protocol SubcategoriesViewOutput: BaseViewOutput {
     
-    init(view: SubcategoriesViewInput, subcategories: [Subcategory], router: RouterProtocol)
+    init(view: SubcategoriesViewInput, id: String, router: RouterProtocol)
     var cells: [SubcategoryCellData] { get }
     func onProducts(id: String)
     func cartButtonDidTap()

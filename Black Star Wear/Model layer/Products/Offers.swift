@@ -5,27 +5,38 @@
 //  Created by Ivan on 16.02.2021.
 //
 
-import Foundation
+import RealmSwift
 
 struct Offers: Decodable {
     
-    var size: String?
-    var productOfferID: String?
-    var quantity: String?
+    var size: String
     
     enum CodingKeys: String, CodingKey {
         
         case size = "size"
-        case productOfferID = "productOfferID"
-        case quantity = "quantity"
     }
     
     init(from decoder: Decoder) throws {
         
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        size = try? container.decode(String.self, forKey: .size)
-        productOfferID = try? container.decode(String.self, forKey: .productOfferID)
-        quantity = try? container.decode(String.self, forKey: .quantity)
+        size = try container.decode(String.self, forKey: .size)
+    }
+    
+    init(from dbObject: OffersDBObject) throws {
+        
+        size = dbObject.size
+    }
+    
+}
+
+class OffersDBObject: Object {
+    
+    @objc dynamic var size: String = ""
+    
+    convenience init(model: Offers) {
+        
+        self.init()
+        size = model.size
     }
     
 }

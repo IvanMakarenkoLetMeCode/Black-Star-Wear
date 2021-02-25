@@ -11,7 +11,7 @@ protocol CategoriesViewOutput: BaseViewOutput {
     
     init(view: CategoriesViewInput, router: RouterProtocol)
     var cells: [CategoryCellData] { get }
-    func onSubcategories(subcategories: [Subcategory])
+    func onSubcategories(id: String)
     func onProducts(id: String)
     func cartButtonDidTap()
 }

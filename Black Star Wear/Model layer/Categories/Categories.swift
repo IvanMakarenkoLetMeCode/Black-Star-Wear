@@ -5,7 +5,7 @@
 //  Created by Ivan on 09.02.2021.
 //
 
-import Foundation
+import RealmSwift
 
 struct Categories: Decodable {
     

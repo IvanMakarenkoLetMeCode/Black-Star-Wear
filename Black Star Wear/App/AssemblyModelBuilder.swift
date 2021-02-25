@@ -9,10 +9,10 @@ import UIKit
 protocol AssemblyBuilderProtocol {
     
     func createCategoriesModule(router: RouterProtocol) -> UIViewController
-    func createSubcategoriesModule(subcategories: [Subcategory], router: RouterProtocol) -> UIViewController
+    func createSubcategoriesModule(id: String, router: RouterProtocol) -> UIViewController
     func createProductsModule(id: String, router: RouterProtocol) -> UIViewController
-    func createProductModule(product: ProductsCellData, router: RouterProtocol) -> UIViewController
-    func createCartModule(products: [ProductsCellData], router: RouterProtocol) -> UIViewController
+    func createProductModule(id: String, router: RouterProtocol) -> UIViewController
+    func createCartModule(router: RouterProtocol) -> UIViewController
     
 }
 
@@ -27,12 +27,11 @@ class AssemblyModelBuilder: AssemblyBuilderProtocol {
         return view
     }
     
-    func createSubcategoriesModule(subcategories: [Subcategory],
-                                   router: RouterProtocol) -> UIViewController {
+    func createSubcategoriesModule(id: String, router: RouterProtocol) -> UIViewController {
         
         let view = SubcategoriesViewController()
         view.title = "Подкатегории".localized()
-        let presenter = SubcategoriesPresenter(view: view, subcategories: subcategories, router: router)
+        let presenter = SubcategoriesPresenter(view: view, id: id, router: router)
         view.output = presenter
         return view
     }
@@ -46,19 +45,19 @@ class AssemblyModelBuilder: AssemblyBuilderProtocol {
         return view
     }
     
-    func createProductModule(product: ProductsCellData, router: RouterProtocol) -> UIViewController {
+    func createProductModule(id: String, router: RouterProtocol) -> UIViewController {
         
         let view = ProductViewController()
-        let presenter = ProductPresenter(view: view, product: product, router: router)
+        let presenter = ProductPresenter(view: view, id: id, router: router)
         view.output = presenter
         return view
     }
     
-    func createCartModule(products: [ProductsCellData], router: RouterProtocol) -> UIViewController {
+    func createCartModule(router: RouterProtocol) -> UIViewController {
         
         let view = CartViewController()
         view.title = "Корзина".localized()
-        let presenter = CartPresenter(view: view, products: products, router: router)
+        let presenter = CartPresenter(view: view, router: router)
         view.output = presenter
         return view
     }

@@ -34,7 +34,7 @@ class ProductViewCell: UICollectionViewCell {
     func configureCell(model: ProductImages) {
         
         self.model = model
-        let urlString = "https://blackstarshop.ru/" + (model.imageURL ?? "")
+        let urlString = "https://blackstarshop.ru/" + model.imageURL
         let url = URL(string: urlString)
         productImageView.setImage(with: url, placeholderImage: AppDesign.Icon.categoryPlaceholder.value)
     }

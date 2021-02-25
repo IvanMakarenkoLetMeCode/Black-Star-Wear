@@ -1,15 +1,15 @@
 //
-//  Product.swift
+//  Cart.swift
 //  Black Star Wear
 //
-//  Created by Ivan on 16.02.2021.
+//  Created by Ivan on 24.02.2021.
 //
 
 import RealmSwift
 
-struct Product: Decodable {
+struct Cart {
     
-    var idCategory: String = ""
+    var idCategory: String
     var id: String
     var name: String
     var descriptionProduct: String
@@ -19,31 +19,7 @@ struct Product: Decodable {
     var offers: [Offers]
     var price: String
     
-    enum CodingKeys: String, CodingKey {
-        
-        case name = "name"
-        case descriptionProduct = "description"
-        case colorName = "colorName"
-        case mainImage = "mainImage"
-        case productImages = "productImages"
-        case offers = "offers"
-        case price = "price"
-    }
-    
-    init(from decoder: Decoder) throws {
-        
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        id = container.codingPath.first!.stringValue
-        name = try container.decode(String.self, forKey: .name)
-        descriptionProduct = try container.decode(String.self, forKey: .descriptionProduct)
-        colorName = try container.decode(String.self, forKey: .colorName)
-        mainImage = try container.decode(String.self, forKey: .mainImage)
-        productImages = (try? container.decode([ProductImages].self, forKey: .productImages)) ?? []
-        offers = (try? container.decode([Offers].self, forKey: .offers)) ?? []
-        price = try container.decode(String.self, forKey: .price)
-    }
-    
-    init(from dbObject: ProductDBObject) throws {
+    init(from dbObject: CartDBObject) throws {
         
         idCategory = dbObject.idCategory
         id = dbObject.id
@@ -58,7 +34,7 @@ struct Product: Decodable {
     
 }
 
-class ProductDBObject: Object {
+class CartDBObject: Object {
     
     override class func primaryKey() -> String? { return "id" }
     @objc dynamic var idCategory: String = ""
@@ -67,11 +43,11 @@ class ProductDBObject: Object {
     @objc dynamic var descriptionProduct: String = ""
     @objc dynamic var colorName: String = ""
     @objc dynamic var mainImage: String = ""
-    let productImages = List<ProductImagesDBObject>()
-    let offers = List<OffersDBObject>()
+    var productImages = List<ProductImagesDBObject>()
+    var offers = List<OffersDBObject>()
     @objc dynamic var price: String = ""
     
-    convenience init(model: Product) {
+    convenience init(model: Cart) {
         
         self.init()
         idCategory = model.idCategory

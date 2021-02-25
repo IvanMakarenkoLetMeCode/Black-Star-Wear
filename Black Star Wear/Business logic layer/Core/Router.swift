@@ -16,10 +16,10 @@ protocol RouterMain {
 protocol RouterProtocol: RouterMain {
     
     func initialViewController()
-    func showSubcategories(subcategories: [Subcategory])
+    func showSubcategories(id: String)
     func showProducts(id: String)
-    func showProduct(product: ProductsCellData)
-    func showCart(products: [ProductsCellData])
+    func showProduct(id: String)
+    func showCart()
     func popViewController()
     func dismissViewController()
     func popToRoute()
@@ -44,11 +44,11 @@ class Router: RouterProtocol {
         }
     }
     
-    func showSubcategories(subcategories: [Subcategory]) {
+    func showSubcategories(id: String) {
         
         if let navigationController = navigationController {
             guard let subcategoryViewController = assemblyBuilder?
-                    .createSubcategoriesModule(subcategories: subcategories, router: self) else { return }
+                    .createSubcategoriesModule(id: id, router: self) else { return }
             navigationController.pushViewController(subcategoryViewController, animated: true)
         }
     }
@@ -62,20 +62,20 @@ class Router: RouterProtocol {
         }
     }
     
-    func showProduct(product: ProductsCellData) {
+    func showProduct(id: String) {
         
         if let navigationController = navigationController {
             guard let productViewController = assemblyBuilder?
-                    .createProductModule(product: product, router: self) else { return }
+                    .createProductModule(id: id, router: self) else { return }
             navigationController.present(productViewController, animated: true)
         }
     }
     
-    func showCart(products: [ProductsCellData]) {
+    func showCart() {
         
         if let navigationController = navigationController {
             guard let cartViewController = assemblyBuilder?
-                    .createCartModule(products: products, router: self) else { return }
+                    .createCartModule(router: self) else { return }
             navigationController.pushViewController(cartViewController, animated: true)
         }
     }

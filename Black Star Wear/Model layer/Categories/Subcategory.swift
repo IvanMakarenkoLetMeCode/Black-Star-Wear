@@ -5,7 +5,7 @@
 //  Created by Ivan on 09.02.2021.
 //
 
-import Foundation
+import RealmSwift
 
 struct Subcategory: Decodable {
     
@@ -32,6 +32,36 @@ struct Subcategory: Decodable {
         sortOrder = try? container.decode(String.self, forKey: .sortOrder)
         name = try container.decode(String.self, forKey: .name)
         type = try container.decode(String.self, forKey: .type)
+    }
+    
+    init(from dbObject: SubcategoryDBObject) throws {
+        
+        id = dbObject.id
+        iconImage = dbObject.iconImage
+        sortOrder = dbObject.sortOrder
+        name = dbObject.name
+        type = dbObject.type
+    }
+    
+}
+
+class SubcategoryDBObject: Object {
+    
+    override class func primaryKey() -> String? { return "id" }
+    @objc dynamic var id: String? = ""
+    @objc dynamic var iconImage: String = ""
+    @objc dynamic var sortOrder: String? = ""
+    @objc dynamic var name: String = ""
+    @objc dynamic var type: String = ""
+    
+    convenience init(model: Subcategory) {
+        
+        self.init()
+        id = model.id
+        iconImage = model.iconImage
+        sortOrder = model.sortOrder
+        name = model.name
+        type = model.type
     }
     
 }

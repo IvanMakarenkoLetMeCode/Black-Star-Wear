@@ -7,6 +7,11 @@
 
 import UIKit
 
+protocol CartViewCellDelegate: AnyObject {
+    
+    func deleteButtonDidTap(_ cell: UITableViewCell)
+}
+
 class CartViewCell: UITableViewCell {
     
     // MARK: - Private properties
@@ -24,6 +29,7 @@ class CartViewCell: UITableViewCell {
     private var priceLabel = UILabel()
     private var deleteButton = VButton()
     private var model: ProductsCellData?
+    private weak var delegate: CartViewCellDelegate?
     
     // MARK: - Lifecycle
     
@@ -42,9 +48,10 @@ class CartViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureCell(model: ProductsCellData) {
+    func configureCell(model: ProductsCellData, delegate: CartViewCellDelegate?) {
         
         self.model = model
+        self.delegate = delegate
         titleLabel.text = model.name
         sizeLabel.text = model.offers.first?.size
         colorLabel.text = model.colorName
@@ -149,7 +156,7 @@ private extension CartViewCell {
     
     @objc func deleteButtonDidTap(sender: VButton) {
         
-        //..
+        delegate?.deleteButtonDidTap(self)
     }
     
 }

@@ -47,6 +47,13 @@ extension CartViewController: CartViewInput {
         tableView.reloadData()
     }
     
+    func performBatchUpdates(deleteIndex: [IndexPath]) {
+        
+        tableView.performBatchUpdates({
+            tableView.deleteRows(at: deleteIndex, with: .fade)
+        })
+    }
+    
     func setupContent() {
         
         var priceDouble: [Double] = []
@@ -59,12 +66,10 @@ extension CartViewController: CartViewInput {
 
             let priceString = String(priceSummary)
             priceLabel.text = priceString.priceFormate()
-            onMainButton.isHidden = true
         }
         else {
 
             priceLabel.text = "0".priceFormate()
-            checkoutButton.isHidden = true
         }
         
     }
@@ -75,17 +80,42 @@ extension CartViewController: CartViewInput {
 extension CartViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        if output.cells.count == 0 {
+            onMainButton.isHidden = false
+            checkoutButton.isHidden = true
+        }
+        else {
+            onMainButton.isHidden = true
+            checkoutButton.isHidden = false
+        }
         return output.cells.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: cartCellIdentifier, for: indexPath) as? CartViewCell else { fatalError() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: cartCellIdentifier,
+                                                       for: indexPath) as? CartViewCell else { fatalError() }
         let product = output.cells[indexPath.row]
-        cell.configureCell(model: product)
+        cell.configureCell(model: product, delegate: self)
         return cell
     }
 
+}
+
+// MARK: - CartViewCellDelegate
+extension CartViewController: CartViewCellDelegate {
+    
+    func deleteButtonDidTap(_ cell: UITableViewCell) {
+        
+        if let indexPath = tableView.indexPath(for: cell) {
+            
+            let row = indexPath.row
+            output.deleteButtonDidTap(row: row)
+        }
+        
+    }
+    
 }
 
 // MARK: Private methods

@@ -11,7 +11,7 @@ protocol ProductsViewOutput: BaseViewOutput {
     
     init(view: ProductsViewInput, id: String, router: RouterProtocol)
     var cells: [ProductsCellData] { get }
-    func onProduct(product: ProductsCellData)
+    func onProduct(id: String)
     func cartButtonDidTap()
     func backButtonDidTap()
 }

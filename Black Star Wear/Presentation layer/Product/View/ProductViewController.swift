@@ -231,6 +231,7 @@ private extension ProductViewController {
     @objc func addToCartButtonDidTap(sender: VButton) {
         
         output.addToCartButtonDidTap()
+        animeteView(sender)
     }
     
     @objc func backButtonDidTap(sender: VButton) {
@@ -241,6 +242,30 @@ private extension ProductViewController {
     @objc func cartButtonDidTap(sender: VButton) {
         
         output.cartButtonDidTap()
+    }
+    
+    func animeteView(_ viewToAnimete: UIView) {
+        
+        UIView.animate(withDuration: 0.2,
+                       delay: 0,
+                       usingSpringWithDamping: 1,
+                       initialSpringVelocity: 1,
+                       options: .curveEaseIn,
+                       animations: {
+                        
+                        viewToAnimete.transform = CGAffineTransform(scaleX: 0.92, y: 0.92)
+                       }) { (_) in
+            
+            UIView.animate(withDuration: 0.2,
+                           delay: 0,
+                           usingSpringWithDamping: 1,
+                           initialSpringVelocity: 1,
+                           options: .curveEaseIn,
+                           animations: {
+                            
+                            viewToAnimete.transform = CGAffineTransform(scaleX: 1, y: 1) },
+                           completion: nil)
+        }
     }
     
 }

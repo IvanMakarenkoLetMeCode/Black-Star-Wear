@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 class ProductsPresenter {
 
@@ -13,6 +14,7 @@ class ProductsPresenter {
 
     weak var view: ProductsViewInput?
     var router: RouterProtocol?
+    let realm = try! Realm()
 
     // MARK: - Private properties
 
@@ -38,14 +40,14 @@ extension ProductsPresenter: ProductsViewOutput {
         return cellsProducts
     }
 
-    func onProduct(product: ProductsCellData) {
+    func onProduct(id: String) {
 
-        router?.showProduct(product: product)
+        router?.showProduct(id: id)
     }
     
     func cartButtonDidTap() {
         
-        router?.showCart(products: cellsProducts)
+        router?.showCart()
     }
     
     func backButtonDidTap() {
@@ -80,20 +82,20 @@ private extension ProductsPresenter {
         
         for product in products.products {
             
-            cellsProducts.append(ProductsCellDataProducer(name: product.name ?? "",
-                                                          englishName: product.englishName ?? "",
-                                                          sortOrder: product.sortOrder ?? "",
-                                                          article: product.article ?? "",
-                                                          collection: product.collection ?? "",
-                                                          description: product.description ?? "",
-                                                          colorName: product.colorName ?? "",
-                                                          colorImageURL: product.colorImageURL ?? "",
-                                                          mainImage: product.mainImage ?? "",
+            let productDBObject = ProductDBObject(model: product)
+            
+            try! realm.write {
+                realm.add(productDBObject, update: .all)
+            }
+            
+            cellsProducts.append(ProductsCellDataProducer(id: product.id,
+                                                          name: product.name,
+                                                          description: product.descriptionProduct,
+                                                          colorName: product.colorName,
+                                                          mainImage: product.mainImage,
                                                           productImages: product.productImages,
                                                           offers: product.offers,
-                                                          recommendedProductIDs: product.recommendedProductIDs,
-                                                          price: Double(product.price ?? "") ?? 0,
-                                                          attributes: product.attributes))
+                                                          price: Double(product.price) ?? 0))
         }
         
 //        print(cellsProducts)

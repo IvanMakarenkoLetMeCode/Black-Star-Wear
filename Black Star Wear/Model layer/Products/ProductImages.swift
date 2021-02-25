@@ -5,25 +5,39 @@
 //  Created by Ivan on 16.02.2021.
 //
 
-import Foundation
+import RealmSwift
 
 struct ProductImages: Decodable {
     
-    var imageURL: String?
-    var sortOrder: String?
+    var imageURL: String
     
     
     enum CodingKeys: String, CodingKey {
         
         case imageURL = "imageURL"
-        case sortOrder = "sortOrder"
     }
     
     init(from decoder: Decoder) throws {
         
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        imageURL = try? container.decode(String.self, forKey: .imageURL)
-        sortOrder = try? container.decode(String.self, forKey: .sortOrder)
+        imageURL = try container.decode(String.self, forKey: .imageURL)
+    }
+    
+    init(from dbObject: ProductImagesDBObject) throws {
+        
+        imageURL = dbObject.imageURL
+    }
+    
+}
+
+class ProductImagesDBObject: Object {
+    
+    @objc dynamic var imageURL: String = ""
+    
+    convenience init(model: ProductImages) {
+
+        self.init()
+        imageURL = model.imageURL
     }
     
 }

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 class SubcategoriesPresenter {
     
@@ -13,17 +14,19 @@ class SubcategoriesPresenter {
     
     weak var view: SubcategoriesViewInput?
     var router: RouterProtocol?
+    let realm = try! Realm()
     
     // MARK: - Private properties
     
+    private var id: String
     private var cellsSubcategories = [SubcategoryCellData]()
-    private var subcategories = [Subcategory]()
+//    private var subcategories = [Subcategory]()
     
     // MARK: - Lifecycle
     
-    required init(view: SubcategoriesViewInput, subcategories: [Subcategory], router: RouterProtocol) {
+    required init(view: SubcategoriesViewInput, id: String, router: RouterProtocol) {
         self.view = view
-        self.subcategories = subcategories
+        self.id = id
         self.router = router
     }
     
@@ -44,7 +47,7 @@ extension SubcategoriesPresenter: SubcategoriesViewOutput {
     
     func cartButtonDidTap() {
         
-        router?.showCart(products: [])
+        router?.showCart()
     }
     
     func backButtonDidTap() {
@@ -70,13 +73,17 @@ private extension SubcategoriesPresenter {
     
     func buildCells() {
         
-        for subcategory in subcategories {
+//        let category = realm.objects(CategoryDBObject.self).filter("id == \(id)").first
+        let categories = realm.objects(CategoryDBObject.self)
+        let filteredCategory = categories.filter { $0.id == self.id }.first
+        if let subcategories = filteredCategory?.subcategories {
             
-            cellsSubcategories.append(SubcategoryCellDataProducer(id: subcategory.id ?? "",
-                                                                  iconImage: subcategory.iconImage,
-                                                                  sortOrder: subcategory.sortOrder ?? "",
-                                                                  name: subcategory.name,
-                                                                  type: subcategory.type))
+            for subcategory in subcategories {
+                
+                cellsSubcategories.append(SubcategoryCellDataProducer(id: subcategory.id ?? "",
+                                                                      iconImage: subcategory.iconImage,
+                                                                      name: subcategory.name))
+            }
         }
         
     }
