@@ -99,41 +99,53 @@ private extension SubcategoriesPresenter {
                 
                 if objects.count == 0 {
 
-                    self.view?.cartNotEmpty(color: AppDesign.Color.grey.ui,
+                    self.view?.cartNotEmpty(color: AppDesign.Color.clear.ui,
                                             image: AppDesign.Icon.cart.value,
-                                            title: nil)
+                                            cornerRadius: 0,
+                                            title: nil,
+                                            textSize: nil)
                 }
                 else if objects.count > 0 && objects.count < 100 {
 
                     self.view?.cartNotEmpty(color: AppDesign.Color.red.ui,
                                             image: nil,
-                                            title: String(objects.count))
+                                            cornerRadius: 10,
+                                            title: String(objects.count),
+                                            textSize: 12)
                 }
                 else {
 
                     self.view?.cartNotEmpty(color: AppDesign.Color.red.ui,
                                             image: nil,
-                                            title: "..")
+                                            cornerRadius: 10,
+                                            title: "..",
+                                            textSize: 16)
                 }
             case .update(let objects, _, _, _):
                 
                 if objects.count == 0 {
 
-                    self.view?.cartNotEmpty(color: AppDesign.Color.grey.ui,
+                    self.view?.cartNotEmpty(color: AppDesign.Color.clear.ui,
                                             image: AppDesign.Icon.cart.value,
-                                            title: nil)
+                                            cornerRadius: 0,
+                                            title: nil,
+                                            textSize: nil)
                 }
                 else if objects.count > 0 && objects.count < 100 {
 
                     self.view?.cartNotEmpty(color: AppDesign.Color.red.ui,
                                             image: nil,
-                                            title: String(objects.count))
+                                            cornerRadius: 10,
+                                            title: String(objects.count),
+                                            textSize: 12)
                 }
                 else {
 
                     self.view?.cartNotEmpty(color: AppDesign.Color.red.ui,
                                             image: nil,
-                                            title: "..")
+                                            cornerRadius: 10,
+                                            title: "..",
+                                            textSize: 16)
                 }
             case .error(let error):
                 

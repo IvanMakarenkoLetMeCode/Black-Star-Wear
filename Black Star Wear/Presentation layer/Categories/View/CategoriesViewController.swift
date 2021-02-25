@@ -19,7 +19,7 @@ class CategoriesViewController: UIViewController {
     // MARK: - Private properties
     
     private let tableView = UITableView()
-    private var cartButtonItem = UIBarButtonItem()
+    private var cartButton = VButton()
     private let categoriesCellIdentifier = String(describing: CategoriesViewCell.self)
     
     // MARK: - Lifecycle
@@ -41,11 +41,16 @@ extension CategoriesViewController: CategoriesViewInput {
         tableView.reloadData()
     }
     
-    func cartNotEmpty(color: UIColor, image: UIImage?, title: String?) {
+    func cartNotEmpty(color: UIColor, image: UIImage?, cornerRadius: CGFloat, title: String?, textSize: CGFloat?) {
         
-        cartButtonItem.title = title
-        cartButtonItem.image = image
-        cartButtonItem.tintColor = color
+        
+        cartButton.backgroundColor = color
+        cartButton.setImage(image)
+        cartButton.layer.cornerRadius = cornerRadius
+        cartButton.setTitle(title)
+        if let textSize = textSize {
+            cartButton.titleLabel?.font = AppDesign.FontName.roboto.mediumWith(size: textSize)
+        }
     }
     
 }
@@ -102,11 +107,16 @@ private extension CategoriesViewController {
         tableView.tableFooterView = UIView()
         tableView.separatorStyle = .singleLine
         
-        cartButtonItem = UIBarButtonItem(image: AppDesign.Icon.cart.value, style: .plain, target: self,
-                                             action: #selector(cartButtonDidTap))
+        cartButton.backgroundColor = AppDesign.Color.clear.ui
+        cartButton.setImage(AppDesign.Icon.cart.value)
+        cartButton.clipsToBounds = true
+        cartButton.addTarget(self, action: #selector(cartButtonDidTap), for: .touchUpInside)
+        cartButton.widthAnchor.constraint(equalToConstant: 20).isActive = true
+        cartButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
         
-        self.navigationItem.rightBarButtonItem = cartButtonItem
-        self.navigationItem.rightBarButtonItem?.tintColor = AppDesign.Color.grey.ui
+        let rightBarButton = UIBarButtonItem(customView: cartButton)
+        self.navigationItem.rightBarButtonItem = rightBarButton
+        self.navigationController?.navigationBar.backgroundColor = AppDesign.Color.navigationBar.ui
     }
     
     // MARK: - Actions

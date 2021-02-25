@@ -185,6 +185,7 @@ private extension CartViewController {
         let crossButtonItem = UIBarButtonItem(image: AppDesign.Icon.cross.value, style: .plain, target: self, action: #selector(crossButtonDidTap))
         self.navigationItem.leftBarButtonItem = crossButtonItem
         self.navigationItem.leftBarButtonItem?.tintColor = AppDesign.Color.grey.ui
+        self.navigationController?.navigationBar.backgroundColor = AppDesign.Color.navigationBar.ui
     }
     
     func setupViewConstraints() {

@@ -10,5 +10,5 @@ import UIKit
 protocol ProductsViewInput: BaseViewInput {
     
     func collectionViewReloadData()
-    func cartNotEmpty(color: UIColor, image: UIImage?, title: String?)
+    func cartNotEmpty(color: UIColor, image: UIImage?, cornerRadius: CGFloat, title: String?, textSize: CGFloat?)
 }

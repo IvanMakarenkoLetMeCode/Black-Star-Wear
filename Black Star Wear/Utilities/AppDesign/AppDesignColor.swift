@@ -27,6 +27,8 @@ extension AppDesign {
         case red = "co_red"
         /// Opacity = 0
         case clear = "co_clear"
+        /// Hex: #68
+        case navigationBar = "co_navigation_bar"
         /// Hex: #E0E0E0
         case separator = "co_separator"
         
