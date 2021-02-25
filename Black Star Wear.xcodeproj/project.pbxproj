@@ -60,7 +60,6 @@
 		2C9C466425D6BDEA00133D1B /* AssemblyModelBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9C466325D6BDEA00133D1B /* AssemblyModelBuilder.swift */; };
 		2C9C466925DA54C600133D1B /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9C466825DA54C600133D1B /* Router.swift */; };
 		2C9C467725DA9A3F00133D1B /* CategoriesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9C467625DA9A3F00133D1B /* CategoriesService.swift */; };
-		2CB6D76525D42134007515AF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB6D76425D42134007515AF /* SceneDelegate.swift */; };
 		2CC175CA25D40493000F40E8 /* MainNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC175C925D40493000F40E8 /* MainNavigationController.swift */; };
 		2CF7B26225DE540A0028081D /* VButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF7B26125DE540A0028081D /* VButton.swift */; };
 		2CF7B26725DE7A780028081D /* AppDesignFontName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF7B26625DE7A780028081D /* AppDesignFontName.swift */; };
@@ -143,7 +142,6 @@
 		2C9C466325D6BDEA00133D1B /* AssemblyModelBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssemblyModelBuilder.swift; sourceTree = "<group>"; };
 		2C9C466825DA54C600133D1B /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		2C9C467625DA9A3F00133D1B /* CategoriesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesService.swift; sourceTree = "<group>"; };
-		2CB6D76425D42134007515AF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		2CC175C925D40493000F40E8 /* MainNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNavigationController.swift; sourceTree = "<group>"; };
 		2CF7B26125DE540A0028081D /* VButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VButton.swift; sourceTree = "<group>"; };
 		2CF7B26625DE7A780028081D /* AppDesignFontName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDesignFontName.swift; sourceTree = "<group>"; };
@@ -218,7 +216,6 @@
 			isa = PBXGroup;
 			children = (
 				2C087C3825D2683A00DBF0FF /* AppDelegate.swift */,
-				2CB6D76425D42134007515AF /* SceneDelegate.swift */,
 				2C9C466325D6BDEA00133D1B /* AssemblyModelBuilder.swift */,
 				2C087C4625D2683B00DBF0FF /* Info.plist */,
 			);
@@ -805,7 +802,6 @@
 				2C6ED44725DBBEBB00E68A8F /* SubcategoryCellData.swift in Sources */,
 				2CC175CA25D40493000F40E8 /* MainNavigationController.swift in Sources */,
 				2C08C85325DD696600720DE7 /* ProductViewOutput.swift in Sources */,
-				2CB6D76525D42134007515AF /* SceneDelegate.swift in Sources */,
 				2C0EDC1925DCF7760023090C /* ProductsCellData.swift in Sources */,
 				2C40B5F125D2C7A1007C70EA /* NetworkTarget.swift in Sources */,
 				2C0EDC0A25DCF6F90023090C /* ProductsViewController.swift in Sources */,
@@ -915,7 +911,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -970,7 +966,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -989,7 +985,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = FVK56LF4WM;
 				INFOPLIST_FILE = "/Users/ivan/Documents/Projects/Black-Star-Wear/Black Star Wear/App/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1010,7 +1006,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = FVK56LF4WM;
 				INFOPLIST_FILE = "/Users/ivan/Documents/Projects/Black-Star-Wear/Black Star Wear/App/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
