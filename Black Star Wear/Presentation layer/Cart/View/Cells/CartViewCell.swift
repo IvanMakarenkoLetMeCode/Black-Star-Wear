@@ -120,6 +120,7 @@ private extension CartViewCell {
         colorLabel.textColor = AppDesign.Color.grey.ui
         
         let emptyView = UIView()
+        let spaceView = UIView()
         
         priceLabel.textAlignment = .left
         priceLabel.numberOfLines = 1
@@ -150,6 +151,7 @@ private extension CartViewCell {
         
         colorStackView.addArrangedSubview(tittleColorLabel)
         colorStackView.addArrangedSubview(colorLabel)
+        colorStackView.addArrangedSubview(spaceView)
     }
     
     // MARK: - Actions
