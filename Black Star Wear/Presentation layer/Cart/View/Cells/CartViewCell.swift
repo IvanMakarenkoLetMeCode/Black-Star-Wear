@@ -49,7 +49,7 @@ class CartViewCell: UITableViewCell {
         self.model = model
         self.delegate = delegate
         titleLabel.text = model.name
-        guard let size = model.offers.first?.size else { return }
+        let size = model.offers.first?.size ?? ""
         sizeLabel.text = "Размер: ".localized() + size
         colorLabel.text = "Цвет: ".localized() + model.colorName
         let priceString = String(model.price)
