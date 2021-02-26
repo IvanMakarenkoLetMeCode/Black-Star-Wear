@@ -44,7 +44,14 @@ extension CartPresenter: CartViewOutput {
     
     func checkoutButtonDidTap() {
         
-        //..
+        let cartDBObjects = realm.objects(CartDBObject.self)
+        try! realm.write {
+            realm.delete(cartDBObjects)
+        }
+        
+        cartCell.removeAll()
+        view?.tableViewReloadData()
+        view?.setupContent()
     }
     
     func onMainButtonDidTap() {
