@@ -14,13 +14,13 @@ class ProductsPresenter {
 
     weak var view: ProductsViewInput?
     var router: RouterProtocol?
-    var token: NotificationToken?
     let realm = try! Realm()
 
     // MARK: - Private properties
 
     private var cellsProducts = [ProductsCellData]()
     private var id: String
+    private var token: NotificationToken?
     private lazy var productsService = ProductsService(id: id)
 
     // MARK: - Lifecycle
@@ -29,6 +29,11 @@ class ProductsPresenter {
         self.view = view
         self.id = id
         self.router = router
+    }
+    
+    deinit {
+        token?.invalidate()
+        token = nil
     }
     
 }
@@ -84,7 +89,7 @@ private extension ProductsPresenter {
         
         for product in products.products {
             
-            cellsProducts.append(ProductsCellDataProducer(id: product.id,
+            self.cellsProducts.append(ProductsCellDataProducer(id: product.id,
                                                           name: product.name,
                                                           description: product.descriptionProduct,
                                                           colorName: product.colorName,
@@ -94,7 +99,7 @@ private extension ProductsPresenter {
                                                           price: Double(product.price) ?? 0))
         }
         
-        view?.collectionViewReloadData()
+        self.view?.collectionViewReloadData()
     }
     
     func addProductsToDBO(products: Products) {
@@ -103,8 +108,8 @@ private extension ProductsPresenter {
             
             let productDBObject = ProductDBObject(model: product)
             
-            try! realm.write {
-                realm.add(productDBObject, update: .all)
+            try! self.realm.write {
+                self.realm.add(productDBObject, update: .all)
             }
         }
         
@@ -113,8 +118,9 @@ private extension ProductsPresenter {
     func addCartWatcher() {
 
         let results = realm.objects(CartDBObject.self)
-        token = results.observe { change in
+        token = results.observe { [weak self] change in
             
+            guard let self = self else { return }
             switch change {
             case .initial(let objects):
                 self.view?.setupCartButton(count: objects.count)

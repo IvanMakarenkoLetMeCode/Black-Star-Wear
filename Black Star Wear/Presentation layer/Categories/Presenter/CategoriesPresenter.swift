@@ -14,11 +14,11 @@ class CategoriesPresenter {
     
     weak var view: CategoriesViewInput?
     var router: RouterProtocol?
-    var token: NotificationToken?
     let realm = try! Realm()
     
     // MARK: - Private properties
     
+    private var token: NotificationToken?
     private var cellsCategories = [CategoryCellData]()
     private lazy var categoriesService = CategoriesService()
     
@@ -27,6 +27,11 @@ class CategoriesPresenter {
     required init(view: CategoriesViewInput, router: RouterProtocol) {
         self.view = view
         self.router = router
+    }
+    
+    deinit {
+        token?.invalidate()
+        token = nil
     }
     
 }
@@ -82,14 +87,14 @@ private extension CategoriesPresenter {
         
         for category in categories.categories {
             
-            cellsCategories.append(CategoryCellDataProducer(id: category.id,
+            self.cellsCategories.append(CategoryCellDataProducer(id: category.id,
                                                        name: category.name,
                                                        image: category.image,
                                                        subcategories: category.subcategories))
             
         }
         
-        view?.tableViewReloadData()
+        self.view?.tableViewReloadData()
         
     }
     
@@ -99,8 +104,8 @@ private extension CategoriesPresenter {
             
             let categoryDBObject = CategoryDBObject(model: category)
             
-            try! realm.write {
-                realm.add(categoryDBObject, update: .all)
+            try! self.realm.write {
+                self.realm.add(categoryDBObject, update: .all)
             }
         }
         
@@ -109,8 +114,9 @@ private extension CategoriesPresenter {
     func addCartWatcher() {
 
         let results = realm.objects(CartDBObject.self)
-        token = results.observe { change in
+        token = results.observe { [weak self] change in
             
+            guard let self = self else { return }
             switch change {
             case .initial(let objects):
                 self.view?.setupCartButton(count: objects.count)

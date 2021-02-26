@@ -14,14 +14,13 @@ class SubcategoriesPresenter {
     
     weak var view: SubcategoriesViewInput?
     var router: RouterProtocol?
-    var token: NotificationToken?
     let realm = try! Realm()
     
     // MARK: - Private properties
     
     private var id: String
+    private var token: NotificationToken?
     private var cellsSubcategories = [SubcategoryCellData]()
-//    private var subcategories = [Subcategory]()
     
     // MARK: - Lifecycle
     
@@ -29,6 +28,11 @@ class SubcategoriesPresenter {
         self.view = view
         self.id = id
         self.router = router
+    }
+    
+    deinit {
+        token?.invalidate()
+        token = nil
     }
     
 }
@@ -88,7 +92,8 @@ private extension SubcategoriesPresenter {
     func addCartWatcher() {
 
         let results = realm.objects(CartDBObject.self)
-        token = results.observe { change in
+        token = results.observe { [weak self] change in
+            
             
             switch change {
             case .initial(let objects):

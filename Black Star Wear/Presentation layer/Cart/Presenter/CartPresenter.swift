@@ -39,7 +39,7 @@ extension CartPresenter: CartViewOutput {
     
     func crossButtonDidTap() {
         
-        router?.popViewController()
+        router?.dismissViewController()
     }
     
     func checkoutButtonDidTap() {
@@ -49,6 +49,7 @@ extension CartPresenter: CartViewOutput {
     
     func onMainButtonDidTap() {
         
+        router?.dismissViewController()
         router?.popToRoute()
     }
     

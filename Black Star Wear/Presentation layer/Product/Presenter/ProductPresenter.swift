@@ -14,12 +14,12 @@ class ProductPresenter {
 
     weak var view: ProductViewInput?
     var router: RouterProtocol?
-    var token: NotificationToken?
     var realm = try! Realm()
     
     // MARK: - Private properties
     
     private var id: String
+    private var token: NotificationToken?
     private var productCell: ProductViewData = ProductViewDataProducer(id: "",
                                                                      name: "",
                                                                      description: "",
@@ -35,6 +35,11 @@ class ProductPresenter {
         self.view = view
         self.id = id
         self.router = router
+    }
+    
+    deinit {
+        token?.invalidate()
+        token = nil
     }
     
 }
@@ -126,8 +131,9 @@ private extension ProductPresenter {
     func addCartWatcher() {
 
         let results = realm.objects(CartDBObject.self)
-        token = results.observe { change in
+        token = results.observe { [weak self] change in
             
+            guard let self = self else { return }
             switch change {
             case .initial(let objects):
                 self.view?.setupCartButton(count: objects.count)
