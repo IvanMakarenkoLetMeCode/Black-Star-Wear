@@ -28,7 +28,7 @@ struct Subcategory: Decodable {
         
         let container = try decoder.container(keyedBy: CodingKeys.self)
         id = try? container.decode(String.self, forKey: .id)
-        iconImage = try container.decode(String.self, forKey: .iconImage)
+        iconImage = "https://blackstarshop.ru/" + (try container.decode(String.self, forKey: .iconImage))
         sortOrder = try? container.decode(String.self, forKey: .sortOrder)
         name = try container.decode(String.self, forKey: .name)
         type = try container.decode(String.self, forKey: .type)

@@ -10,6 +10,7 @@ import RealmSwift
 struct Cart {
     
     var idCategory: String
+    var idProduct: String
     var id: String
     var name: String
     var descriptionProduct: String
@@ -22,6 +23,7 @@ struct Cart {
     init(from dbObject: CartDBObject) throws {
         
         idCategory = dbObject.idCategory
+        idProduct = dbObject.idProduct
         id = dbObject.id
         name = dbObject.name
         descriptionProduct = dbObject.descriptionProduct
@@ -38,6 +40,7 @@ class CartDBObject: Object {
     
     override class func primaryKey() -> String? { return "id" }
     @objc dynamic var idCategory: String = ""
+    @objc dynamic var idProduct: String = ""
     @objc dynamic var id: String = ""
     @objc dynamic var name: String = ""
     @objc dynamic var descriptionProduct: String = ""
@@ -51,6 +54,7 @@ class CartDBObject: Object {
         
         self.init()
         idCategory = model.idCategory
+        idProduct = model.idProduct
         id = model.id
         name = model.name
         descriptionProduct = model.descriptionProduct

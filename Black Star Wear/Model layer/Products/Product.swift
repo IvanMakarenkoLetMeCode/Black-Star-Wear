@@ -37,7 +37,7 @@ struct Product: Decodable {
         name = try container.decode(String.self, forKey: .name)
         descriptionProduct = try container.decode(String.self, forKey: .descriptionProduct)
         colorName = try container.decode(String.self, forKey: .colorName)
-        mainImage = try container.decode(String.self, forKey: .mainImage)
+        mainImage = "https://blackstarshop.ru/" + (try container.decode(String.self, forKey: .mainImage))
         productImages = (try? container.decode([ProductImages].self, forKey: .productImages)) ?? []
         offers = (try? container.decode([Offers].self, forKey: .offers)) ?? []
         price = try container.decode(String.self, forKey: .price)

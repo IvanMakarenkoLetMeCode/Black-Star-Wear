@@ -14,14 +14,11 @@ class CartPresenter {
     
     weak var view: CartViewInput?
     var router: RouterProtocol?
-    var product: Cart!
     var realm = try! Realm()
     
     // MARK: - Private properties
     
-    private var products = [Cart]()
-    private var productsCell = [ProductsCellData]()
-    private var cellsDeleted: [IndexPath]?
+    private var cartCell = [CartCellData]()
     
     // MARK: - Lifecycle
     
@@ -35,9 +32,9 @@ class CartPresenter {
 // MARK: - CartViewOutput
 extension CartPresenter: CartViewOutput {
     
-    var cells: [ProductsCellData] {
+    var cells: [CartCellData] {
         
-        return productsCell
+        return cartCell
     }
     
     func crossButtonDidTap() {
@@ -58,17 +55,13 @@ extension CartPresenter: CartViewOutput {
     func deleteButtonDidTap(row: Int) {
         
         let cartDBObjects = realm.objects(CartDBObject.self)
-        let cartDBObject = cartDBObjects.filter { $0.id == self.productsCell[row].id }
+        let cartDBObject = cartDBObjects.filter { $0.id == self.cartCell[row].id }
         try! realm.write {
             realm.delete(cartDBObject)
         }
         
-        productsCell.remove(at: row)
-        cellsDeleted = []
-        cellsDeleted?.append(IndexPath(row: row, section: 0))
-        if let cellsDeleted = cellsDeleted {
-            view?.performBatchUpdates(deleteIndex: cellsDeleted)
-        }
+        cartCell.remove(at: row)
+        view?.performBatchUpdates(deleteIndexPaths: [IndexPath(row: row, section: 0)])
         view?.setupContent()
         
     }
@@ -96,23 +89,20 @@ private extension CartPresenter {
         for cartDBObject in cartDBObjects {
             
             do {
-                product = try Cart(from: cartDBObject)
-            } catch {
+                
+                let cart = try Cart(from: cartDBObject)
+                cartCell.append(CartCellDataProducer(id: cart.id,
+                                                             name: cart.name,
+                                                             description: cart.descriptionProduct,
+                                                             colorName: cart.colorName,
+                                                             mainImage: cart.mainImage,
+                                                             productImages: cart.productImages,
+                                                             offers: cart.offers,
+                                                             price: (Double(cart.price) ?? 0)))
+            }
+            catch {
                 print(error)
             }
-            products.append(product)
-        }
-        
-        for product in products {
-            
-            productsCell.append(ProductsCellDataProducer(id: product.id,
-                                                         name: product.name,
-                                                         description: product.descriptionProduct,
-                                                         colorName: product.colorName,
-                                                         mainImage: product.mainImage,
-                                                         productImages: product.productImages,
-                                                         offers: product.offers,
-                                                         price: (Double(product.price) ?? 0)))
         }
         
     }

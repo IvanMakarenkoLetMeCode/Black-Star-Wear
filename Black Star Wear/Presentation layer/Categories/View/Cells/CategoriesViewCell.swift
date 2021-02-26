@@ -39,7 +39,7 @@ class CategoriesViewCell: UITableViewCell {
         
         self.model = model
         titleLabel.text = model.name
-        let urlString = "https://blackstarshop.ru/" + model.image
+        let urlString = model.image
         let url = URL(string: urlString)
         iconImageView.setImage(with: url, placeholderImage: AppDesign.Icon.categoryPlaceholder.value)
     }

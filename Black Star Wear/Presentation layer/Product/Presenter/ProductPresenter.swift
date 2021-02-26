@@ -14,14 +14,13 @@ class ProductPresenter {
 
     weak var view: ProductViewInput?
     var router: RouterProtocol?
-    var product: Product!
     var token: NotificationToken?
     var realm = try! Realm()
     
     // MARK: - Private properties
     
     private var id: String
-    private var productCell: ProductsCellData = ProductsCellDataProducer(id: "",
+    private var productCell: ProductViewData = ProductViewDataProducer(id: "",
                                                                      name: "",
                                                                      description: "",
                                                                      colorName: "",
@@ -43,7 +42,7 @@ class ProductPresenter {
 // MARK: - ProductViewOutput
 extension ProductPresenter: ProductViewOutput {
     
-    var chosedProduct: ProductsCellData {
+    var chosedProduct: ProductViewData {
 
         return productCell
     }
@@ -51,21 +50,18 @@ extension ProductPresenter: ProductViewOutput {
     func addToCartButtonDidTap() {
         
         let cartDBObject = CartDBObject()
-        let products = realm.objects(ProductDBObject.self)
-        let filteredProduct = products.filter { $0.id == self.id }.first
-        if let product = filteredProduct {
-            
-            cartDBObject.idCategory = id
-            cartDBObject.id = product.id
-            cartDBObject.name = product.name
-            cartDBObject.descriptionProduct = product.descriptionProduct
-            cartDBObject.colorName = product.colorName
-            cartDBObject.mainImage = product.mainImage
-            cartDBObject.productImages = product.productImages
-            cartDBObject.offers = product.offers
-            cartDBObject.price = product.price
-        }
-        
+        guard let product = realm.objects(ProductDBObject.self).filter("id = '\(id)'").first else { return }
+        cartDBObject.idCategory = id
+        cartDBObject.idProduct = product.id
+        cartDBObject.id = UUID().uuidString
+        cartDBObject.name = product.name
+        cartDBObject.descriptionProduct = product.descriptionProduct
+        cartDBObject.colorName = product.colorName
+        cartDBObject.mainImage = product.mainImage
+        cartDBObject.productImages = product.productImages
+        cartDBObject.offers = product.offers
+        cartDBObject.price = product.price
+
         try! realm.write {
             realm.add(cartDBObject, update: .all)
         }
@@ -73,13 +69,12 @@ extension ProductPresenter: ProductViewOutput {
     
     func cartButtonDidTap() {
         
-        router?.dismissViewController()
         router?.showCart()
     }
     
     func backButtonDidTap() {
         
-        router?.dismissViewController()
+        router?.popViewController()
     }
     
     func viewDidLoad() {
@@ -111,27 +106,21 @@ private extension ProductPresenter {
     
     func buildCells() {
         
-        let products = realm.objects(ProductDBObject.self)
-        let filteredProduct = products.filter { $0.id == self.id }.first
-        if let product = filteredProduct {
-            
-            do {
-                self.product = try Product(from: product)
-            }
-            catch {
-                print(error)
-            }
+        guard let productDBObject = realm.objects(ProductDBObject.self).filter("id = '\(id)'").first else { return }
+        do {
+            let product = try Product(from: productDBObject)
+            productCell = ProductViewDataProducer(id: product.id,
+                                                   name: product.name,
+                                                   description: product.descriptionProduct,
+                                                   colorName: product.colorName,
+                                                   mainImage: product.mainImage,
+                                                   productImages: product.productImages,
+                                                   offers: product.offers,
+                                                   price: (Double(product.price) ?? 0))
         }
-        
-        productCell = ProductsCellDataProducer(id: product.id,
-                                               name: product.name,
-                                               description: product.descriptionProduct,
-                                               colorName: product.colorName,
-                                               mainImage: product.mainImage,
-                                               productImages: product.productImages,
-                                               offers: product.offers,
-                                               price: (Double(product.price) ?? 0))
-        
+        catch {
+            print(error)
+        }
     }
     
     func addCartWatcher() {
@@ -141,60 +130,11 @@ private extension ProductPresenter {
             
             switch change {
             case .initial(let objects):
-                
-                if objects.count == 0 {
-
-                    self.view?.cartNotEmpty(color: .clear,
-                                            image: AppDesign.Icon.cart.value,
-                                            cornerRadius: 0,
-                                            title: nil,
-                                            textSize: nil)
-                }
-                else if objects.count > 0 && objects.count < 100 {
-
-                    self.view?.cartNotEmpty(color: AppDesign.Color.red.ui,
-                                            image: nil,
-                                            cornerRadius: 10,
-                                            title: String(objects.count),
-                                            textSize: 12)
-                }
-                else {
-
-                    self.view?.cartNotEmpty(color: AppDesign.Color.red.ui,
-                                            image: nil,
-                                            cornerRadius: 10,
-                                            title: "..",
-                                            textSize: 16)
-                }
+                self.view?.setupCartButton(count: objects.count)
             case .update(let objects, _, _, _):
-                
-                if objects.count == 0 {
-
-                    self.view?.cartNotEmpty(color: .clear,
-                                            image: AppDesign.Icon.cart.value,
-                                            cornerRadius: 0,
-                                            title: nil,
-                                            textSize: nil)
-                }
-                else if objects.count > 0 && objects.count < 100 {
-
-                    self.view?.cartNotEmpty(color: AppDesign.Color.red.ui,
-                                            image: nil,
-                                            cornerRadius: 10,
-                                            title: String(objects.count),
-                                            textSize: 12)
-                }
-                else {
-
-                    self.view?.cartNotEmpty(color: AppDesign.Color.red.ui,
-                                            image: nil,
-                                            cornerRadius: 10,
-                                            title: "..",
-                                            textSize: 16)
-                }
-            case .error(let error):
-                
-                fatalError("\(error)")
+                self.view?.setupCartButton(count: objects.count)
+            case .error:
+                break
             }
         }
     }

@@ -38,7 +38,7 @@ class SubcategoriesViewCell: UITableViewCell {
         
         self.model = model
         titleLabel.text = model.name
-        let urlString = "https://blackstarshop.ru/" + model.iconImage
+        let urlString = model.iconImage
         let url = URL(string: urlString)
         iconImageView.setImage(with: url, placeholderImage: AppDesign.Icon.categoryPlaceholder.value)
     }

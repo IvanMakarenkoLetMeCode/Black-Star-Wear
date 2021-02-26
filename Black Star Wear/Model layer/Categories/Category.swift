@@ -33,7 +33,7 @@ struct Category: Decodable {
         id = container.codingPath.first!.stringValue
         name = try container.decode(String.self, forKey: .name)
         sortOrder = try? container.decode(String.self, forKey: .sortOrder)
-        image = try container.decode(String.self, forKey: .image)
+        image = "https://blackstarshop.ru/" + (try container.decode(String.self, forKey: .image))
         iconImage = try container.decode(String.self, forKey: .iconImage)
         iconImageActive = try container.decode(String.self, forKey: .iconImageActive)
         subcategories = (try? container.decode([Subcategory].self, forKey: .subcategories)) ?? []

@@ -70,7 +70,8 @@ private extension CategoriesPresenter {
 
             guard let self = self, let success = success else { return }
             DispatchQueue.main.async {
-
+                
+                self.addCategoriesToDBO(categories: success)
                 self.buildCells(categories: success)
             }
         }
@@ -80,12 +81,6 @@ private extension CategoriesPresenter {
     func buildCells(categories: Categories) {
         
         for category in categories.categories {
-            
-            let categoryDBObject = CategoryDBObject(model: category)
-            
-            try! realm.write {
-                realm.add(categoryDBObject, update: .all)
-            }
             
             cellsCategories.append(CategoryCellDataProducer(id: category.id,
                                                        name: category.name,
@@ -98,6 +93,19 @@ private extension CategoriesPresenter {
         
     }
     
+    func addCategoriesToDBO(categories: Categories) {
+        
+        for category in categories.categories {
+            
+            let categoryDBObject = CategoryDBObject(model: category)
+            
+            try! realm.write {
+                realm.add(categoryDBObject, update: .all)
+            }
+        }
+        
+    }
+    
     func addCartWatcher() {
 
         let results = realm.objects(CartDBObject.self)
@@ -105,60 +113,11 @@ private extension CategoriesPresenter {
             
             switch change {
             case .initial(let objects):
-                
-                if objects.count == 0 {
-
-                    self.view?.cartNotEmpty(color: AppDesign.Color.clear.ui,
-                                            image: AppDesign.Icon.cart.value,
-                                            cornerRadius: 0,
-                                            title: nil,
-                                            textSize: nil)
-                }
-                else if objects.count > 0 && objects.count < 100 {
-
-                    self.view?.cartNotEmpty(color: AppDesign.Color.red.ui,
-                                            image: nil,
-                                            cornerRadius: 10,
-                                            title: String(objects.count),
-                                            textSize: 12)
-                }
-                else {
-
-                    self.view?.cartNotEmpty(color: AppDesign.Color.red.ui,
-                                            image: nil,
-                                            cornerRadius: 10,
-                                            title: "..",
-                                            textSize: 16)
-                }
+                self.view?.setupCartButton(count: objects.count)
             case .update(let objects, _, _, _):
-                
-                if objects.count == 0 {
-
-                    self.view?.cartNotEmpty(color: AppDesign.Color.clear.ui,
-                                            image: AppDesign.Icon.cart.value,
-                                            cornerRadius: 0,
-                                            title: nil,
-                                            textSize: nil)
-                }
-                else if objects.count > 0 && objects.count < 100 {
-
-                    self.view?.cartNotEmpty(color: AppDesign.Color.red.ui,
-                                            image: nil,
-                                            cornerRadius: 10,
-                                            title: String(objects.count),
-                                            textSize: 12)
-                }
-                else {
-
-                    self.view?.cartNotEmpty(color: AppDesign.Color.red.ui,
-                                            image: nil,
-                                            cornerRadius: 10,
-                                            title: "..",
-                                            textSize: 16)
-                }
-            case .error(let error):
-                
-                fatalError("\(error)")
+                self.view?.setupCartButton(count: objects.count)
+            case .error:
+                break
             }
         }
     }

@@ -11,5 +11,5 @@ protocol ProductViewInput: BaseViewInput {
     
     func navigationBarIsHidden(_ bool: Bool)
     func setupContent()
-    func cartNotEmpty(color: UIColor, image: UIImage?, cornerRadius: CGFloat, title: String?, textSize: CGFloat?)
+    func setupCartButton(count: Int)
 }

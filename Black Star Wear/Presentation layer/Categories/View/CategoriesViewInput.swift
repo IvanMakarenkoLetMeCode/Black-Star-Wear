@@ -10,5 +10,5 @@ import UIKit
 protocol CategoriesViewInput: BaseViewInput {
     
     func tableViewReloadData()
-    func cartNotEmpty(color: UIColor, image: UIImage?, cornerRadius: CGFloat, title: String?, textSize: CGFloat?)
+    func setupCartButton(count: Int)
 }

@@ -20,7 +20,7 @@ struct ProductImages: Decodable {
     init(from decoder: Decoder) throws {
         
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        imageURL = try container.decode(String.self, forKey: .imageURL)
+        imageURL = "https://blackstarshop.ru/" + (try container.decode(String.self, forKey: .imageURL))
     }
     
     init(from dbObject: ProductImagesDBObject) throws {

@@ -10,6 +10,6 @@ import Foundation
 protocol CartViewInput: BaseViewInput {
     
     func tableViewReloadData()
-    func performBatchUpdates(deleteIndex: [IndexPath])
+    func performBatchUpdates(deleteIndexPaths: [IndexPath])
     func setupContent()
 }

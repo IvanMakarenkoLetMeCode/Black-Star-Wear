@@ -41,16 +41,33 @@ extension CategoriesViewController: CategoriesViewInput {
         tableView.reloadData()
     }
     
-    func cartNotEmpty(color: UIColor, image: UIImage?, cornerRadius: CGFloat, title: String?, textSize: CGFloat?) {
+    func setupCartButton(count: Int) {
         
-        
-        cartButton.backgroundColor = color
-        cartButton.setImage(image)
-        cartButton.layer.cornerRadius = cornerRadius
-        cartButton.setTitle(title)
-        if let textSize = textSize {
-            cartButton.titleLabel?.font = AppDesign.FontName.roboto.mediumWith(size: textSize)
+        if count == 0 {
+            
+            setupCartButtonUI(color: AppDesign.Color.clear.ui,
+                              image: AppDesign.Icon.cart.value,
+                              cornerRadius: 0,
+                              title: nil,
+                              textSize: nil)
         }
+        else if count > 0 && count < 100 {
+            
+            setupCartButtonUI(color: AppDesign.Color.red.ui,
+                              image: nil,
+                              cornerRadius: 10,
+                              title: String(count),
+                              textSize: 12)
+        }
+        else {
+            
+            setupCartButtonUI(color: AppDesign.Color.red.ui,
+                              image: nil,
+                              cornerRadius: 10,
+                              title: "..",
+                              textSize: 16)
+        }
+        
     }
     
 }
@@ -117,6 +134,18 @@ private extension CategoriesViewController {
         let rightBarButton = UIBarButtonItem(customView: cartButton)
         self.navigationItem.rightBarButtonItem = rightBarButton
         self.navigationController?.navigationBar.backgroundColor = AppDesign.Color.navigationBar.ui
+    }
+    
+    func setupCartButtonUI(color: UIColor, image: UIImage?, cornerRadius: CGFloat, title: String?, textSize: CGFloat?) {
+        
+        cartButton.backgroundColor = color
+        cartButton.setImage(image)
+        cartButton.layer.cornerRadius = cornerRadius
+        cartButton.setTitle(title)
+        if let textSize = textSize {
+            cartButton.titleLabel?.font = AppDesign.FontName.roboto.mediumWith(size: textSize)
+        }
+        
     }
     
     // MARK: - Actions

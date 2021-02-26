@@ -75,16 +75,12 @@ private extension SubcategoriesPresenter {
     
     func buildCells() {
         
-        let categories = realm.objects(CategoryDBObject.self)
-        let filteredCategory = categories.filter { $0.id == self.id }.first
-        if let subcategories = filteredCategory?.subcategories {
+        guard let categoriesDBObject = realm.objects(CategoryDBObject.self).filter("id = '\(id)'").first else { return }
+        for subcategory in categoriesDBObject.subcategories {
             
-            for subcategory in subcategories {
-                
-                cellsSubcategories.append(SubcategoryCellDataProducer(id: subcategory.id ?? "",
-                                                                      iconImage: subcategory.iconImage,
-                                                                      name: subcategory.name))
-            }
+            cellsSubcategories.append(SubcategoryCellDataProducer(id: subcategory.id ?? "",
+                                                                  iconImage: subcategory.iconImage,
+                                                                  name: subcategory.name))
         }
         
     }
@@ -96,60 +92,11 @@ private extension SubcategoriesPresenter {
             
             switch change {
             case .initial(let objects):
-                
-                if objects.count == 0 {
-
-                    self.view?.cartNotEmpty(color: AppDesign.Color.clear.ui,
-                                            image: AppDesign.Icon.cart.value,
-                                            cornerRadius: 0,
-                                            title: nil,
-                                            textSize: nil)
-                }
-                else if objects.count > 0 && objects.count < 100 {
-
-                    self.view?.cartNotEmpty(color: AppDesign.Color.red.ui,
-                                            image: nil,
-                                            cornerRadius: 10,
-                                            title: String(objects.count),
-                                            textSize: 12)
-                }
-                else {
-
-                    self.view?.cartNotEmpty(color: AppDesign.Color.red.ui,
-                                            image: nil,
-                                            cornerRadius: 10,
-                                            title: "..",
-                                            textSize: 16)
-                }
+                self.view?.setupCartButton(count: objects.count)
             case .update(let objects, _, _, _):
-                
-                if objects.count == 0 {
-
-                    self.view?.cartNotEmpty(color: AppDesign.Color.clear.ui,
-                                            image: AppDesign.Icon.cart.value,
-                                            cornerRadius: 0,
-                                            title: nil,
-                                            textSize: nil)
-                }
-                else if objects.count > 0 && objects.count < 100 {
-
-                    self.view?.cartNotEmpty(color: AppDesign.Color.red.ui,
-                                            image: nil,
-                                            cornerRadius: 10,
-                                            title: String(objects.count),
-                                            textSize: 12)
-                }
-                else {
-
-                    self.view?.cartNotEmpty(color: AppDesign.Color.red.ui,
-                                            image: nil,
-                                            cornerRadius: 10,
-                                            title: "..",
-                                            textSize: 16)
-                }
-            case .error(let error):
-                
-                fatalError("\(error)")
+                self.view?.setupCartButton(count: objects.count)
+            case .error:
+                break
             }
         }
     }

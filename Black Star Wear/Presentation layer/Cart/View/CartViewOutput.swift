@@ -10,7 +10,7 @@ import Foundation
 protocol CartViewOutput: BaseViewOutput {
     
     init(view: CartViewInput, router: RouterProtocol)
-    var cells: [ProductsCellData] { get }
+    var cells: [CartCellData] { get }
     func crossButtonDidTap()
     func checkoutButtonDidTap()
     func onMainButtonDidTap()

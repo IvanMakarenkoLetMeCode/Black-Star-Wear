@@ -20,15 +20,11 @@ class CartViewCell: UITableViewCell {
     private var contentStackView = UIStackView()
     private var mainStackView = UIStackView()
     private var titleLabel = UILabel()
-    private var sizeStackView = UIStackView()
-    private var colorStackView = UIStackView()
-    private var titleSizeLabel = UILabel()
     private var sizeLabel = UILabel()
-    private var tittleColorLabel = UILabel()
     private var colorLabel = UILabel()
     private var priceLabel = UILabel()
     private var deleteButton = VButton()
-    private var model: ProductsCellData?
+    private var model: CartCellData?
     private weak var delegate: CartViewCellDelegate?
     
     // MARK: - Lifecycle
@@ -48,16 +44,17 @@ class CartViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureCell(model: ProductsCellData, delegate: CartViewCellDelegate?) {
+    func configureCell(model: CartCellData, delegate: CartViewCellDelegate?) {
         
         self.model = model
         self.delegate = delegate
         titleLabel.text = model.name
-        sizeLabel.text = model.offers.first?.size
-        colorLabel.text = model.colorName
+        guard let size = model.offers.first?.size else { return }
+        sizeLabel.text = "Размер: ".localized() + size
+        colorLabel.text = "Цвет: ".localized() + model.colorName
         let priceString = String(model.price)
         priceLabel.text = priceString.priceFormate()
-        let urlString = "https://blackstarshop.ru/" + model.mainImage
+        let urlString = model.mainImage
         let url = URL(string: urlString)
         productImageView.setImage(with: url, placeholderImage: AppDesign.Icon.categoryPlaceholder.value)
     }
@@ -89,38 +86,15 @@ private extension CartViewCell {
         titleLabel.font = AppDesign.FontName.sfProDisplay.regularWith(size: 16)
         titleLabel.textColor = AppDesign.Color.title.ui
         
-        sizeStackView.axis = .horizontal
-        sizeStackView.alignment = .leading
-        sizeStackView.spacing = 0
-        
-        titleSizeLabel.text = "Размер: ".localized()
-        titleSizeLabel.textAlignment = .left
-        titleSizeLabel.numberOfLines = 1
-        titleSizeLabel.font = AppDesign.FontName.sfProDisplay.regularWith(size: 11)
-        titleSizeLabel.textColor = AppDesign.Color.grey.ui
-        
         sizeLabel.textAlignment = .left
         sizeLabel.numberOfLines = 1
         sizeLabel.font = AppDesign.FontName.sfProDisplay.regularWith(size: 11)
         sizeLabel.textColor = AppDesign.Color.grey.ui
         
-        colorStackView.axis = .horizontal
-        colorStackView.alignment = .leading
-        colorStackView.spacing = 0
-        
-        tittleColorLabel.text = "Цвет: ".localized()
-        tittleColorLabel.textAlignment = .left
-        tittleColorLabel.numberOfLines = 1
-        tittleColorLabel.font = AppDesign.FontName.sfProDisplay.regularWith(size: 11)
-        tittleColorLabel.textColor = AppDesign.Color.grey.ui
-        
         colorLabel.textAlignment = .left
         colorLabel.numberOfLines = 1
         colorLabel.font = AppDesign.FontName.sfProDisplay.regularWith(size: 11)
         colorLabel.textColor = AppDesign.Color.grey.ui
-        
-        let emptyView = UIView()
-        let spaceView = UIView()
         
         priceLabel.textAlignment = .left
         priceLabel.numberOfLines = 1
@@ -141,17 +115,9 @@ private extension CartViewCell {
         contentStackView.setCustomSpacing(10, after: deleteButton)
         
         mainStackView.addArrangedSubview(titleLabel)
-        mainStackView.addArrangedSubview(sizeStackView)
-        mainStackView.addArrangedSubview(colorStackView)
+        mainStackView.addArrangedSubview(sizeLabel)
+        mainStackView.addArrangedSubview(colorLabel)
         mainStackView.addArrangedSubview(priceLabel)
-        
-        sizeStackView.addArrangedSubview(titleSizeLabel)
-        sizeStackView.addArrangedSubview(sizeLabel)
-        sizeStackView.addArrangedSubview(emptyView)
-        
-        colorStackView.addArrangedSubview(tittleColorLabel)
-        colorStackView.addArrangedSubview(colorLabel)
-        colorStackView.addArrangedSubview(spaceView)
     }
     
     // MARK: - Actions

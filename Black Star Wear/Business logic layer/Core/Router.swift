@@ -67,7 +67,7 @@ class Router: RouterProtocol {
         if let navigationController = navigationController {
             guard let productViewController = assemblyBuilder?
                     .createProductModule(id: id, router: self) else { return }
-            navigationController.present(productViewController, animated: true)
+            navigationController.pushViewController(productViewController, animated: true)
         }
     }
     
@@ -76,7 +76,8 @@ class Router: RouterProtocol {
         if let navigationController = navigationController {
             guard let cartViewController = assemblyBuilder?
                     .createCartModule(router: self) else { return }
-            navigationController.pushViewController(cartViewController, animated: true)
+            let cartТavigationController = UINavigationController(rootViewController: cartViewController)
+            navigationController.present(cartТavigationController, animated: true)
         }
     }
     

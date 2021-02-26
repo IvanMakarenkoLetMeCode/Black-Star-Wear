@@ -42,7 +42,7 @@ class ProductsViewCell: UICollectionViewCell {
         titleLabel.text = model.name
         let priceString = String(model.price)
         priceLabel.text = priceString.priceFormate()
-        let urlString = "https://blackstarshop.ru/" + model.mainImage
+        let urlString = model.mainImage
         let url = URL(string: urlString)
         productImageView.setImage(with: url, placeholderImage: AppDesign.Icon.categoryPlaceholder.value)
     }
@@ -67,8 +67,6 @@ private extension ProductsViewCell {
         
         productImageView.contentMode = .scaleAspectFill
         productImageView.clipsToBounds = true
-        productImageView.widthAnchor.constraint(equalToConstant: ((screenSize.width / 2) - 32)).isActive = true
-        productImageView.heightAnchor.constraint(equalToConstant: ((screenSize.width / 2) - 32)).isActive = true
 
         priceLabel.contentMode = .left
         priceLabel.numberOfLines = 1
@@ -78,6 +76,8 @@ private extension ProductsViewCell {
         contentStackView.addArrangedSubview(titleLabel)
         contentStackView.addArrangedSubview(productImageView)
         contentStackView.addArrangedSubview(priceLabel)
+        productImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor).isActive = true
+        productImageView.heightAnchor.constraint(equalTo: productImageView.widthAnchor).isActive = true
     }
     
 }

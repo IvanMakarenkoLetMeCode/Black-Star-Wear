@@ -47,10 +47,10 @@ extension CartViewController: CartViewInput {
         tableView.reloadData()
     }
     
-    func performBatchUpdates(deleteIndex: [IndexPath]) {
+    func performBatchUpdates(deleteIndexPaths: [IndexPath]) {
         
         tableView.performBatchUpdates({
-            tableView.deleteRows(at: deleteIndex, with: .fade)
+            tableView.deleteRows(at: deleteIndexPaths, with: .fade)
         })
     }
     
@@ -96,8 +96,8 @@ extension CartViewController: UITableViewDataSource {
 
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cartCellIdentifier,
                                                        for: indexPath) as? CartViewCell else { fatalError() }
-        let product = output.cells[indexPath.row]
-        cell.configureCell(model: product, delegate: self)
+        let cart = output.cells[indexPath.row]
+        cell.configureCell(model: cart, delegate: self)
         return cell
     }
 

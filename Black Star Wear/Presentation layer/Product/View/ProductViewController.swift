@@ -75,15 +75,33 @@ extension ProductViewController: ProductViewInput {
         }
     }
     
-    func cartNotEmpty(color: UIColor, image: UIImage?, cornerRadius: CGFloat, title: String?, textSize: CGFloat?) {
+    func setupCartButton(count: Int) {
         
-        cartButton.backgroundColor = color
-        cartButton.setImage(image)
-        cartButton.layer.cornerRadius = cornerRadius
-        cartButton.setTitle(title)
-        if let textSize = textSize {
-            cartButton.titleLabel?.font = AppDesign.FontName.roboto.mediumWith(size: textSize)
+        if count == 0 {
+            
+            setupCartButtonUI(color: AppDesign.Color.clear.ui,
+                              image: AppDesign.Icon.cart.value,
+                              cornerRadius: 0,
+                              title: nil,
+                              textSize: nil)
         }
+        else if count > 0 && count < 100 {
+            
+            setupCartButtonUI(color: AppDesign.Color.red.ui,
+                              image: nil,
+                              cornerRadius: 10,
+                              title: String(count),
+                              textSize: 12)
+        }
+        else {
+            
+            setupCartButtonUI(color: AppDesign.Color.red.ui,
+                              image: nil,
+                              cornerRadius: 10,
+                              title: "..",
+                              textSize: 16)
+        }
+        
     }
     
     func navigationBarIsHidden(_ bool: Bool) {
@@ -179,9 +197,6 @@ private extension ProductViewController {
         descriptionTextView.isScrollEnabled = false
         descriptionTextView.isEditable = false
         
-        let emptyView = UIView()
-        emptyView.backgroundColor = AppDesign.Color.white.ui
-        
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         contentScrollView.translatesAutoresizingMaskIntoConstraints = false
         backButton.translatesAutoresizingMaskIntoConstraints = false
@@ -201,7 +216,6 @@ private extension ProductViewController {
         contentStackView.addArrangedSubview(addToCartButton)
         contentStackView.setCustomSpacing(28, after: addToCartButton)
         contentStackView.addArrangedSubview(descriptionTextView)
-        contentStackView.addArrangedSubview(emptyView)
         
         priceStackView.addArrangedSubview(costLabel)
         priceStackView.addArrangedSubview(priceLabel)
@@ -218,8 +232,8 @@ private extension ProductViewController {
         contentScrollView.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 8).isActive = true
         contentScrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
         contentScrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
-        contentScrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -12)
-            .isActive = true
+        contentScrollView.bottomAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.bottomAnchor,
+                                                  constant: -12).isActive = true
         
         backButton.topAnchor.constraint(equalTo: collectionView.topAnchor, constant: 38).isActive = true
         backButton.leadingAnchor.constraint(equalTo: collectionView.leadingAnchor, constant: 16).isActive = true
@@ -237,22 +251,16 @@ private extension ProductViewController {
         button.heightAnchor.constraint(equalToConstant: constant).isActive = true
     }
     
-    // MARK: - Actions
-    
-    @objc func addToCartButtonDidTap(sender: VButton) {
+    func setupCartButtonUI(color: UIColor, image: UIImage?, cornerRadius: CGFloat, title: String?, textSize: CGFloat?) {
         
-        output.addToCartButtonDidTap()
-        animeteView(sender)
-    }
-    
-    @objc func backButtonDidTap(sender: VButton) {
+        cartButton.backgroundColor = color
+        cartButton.setImage(image)
+        cartButton.layer.cornerRadius = cornerRadius
+        cartButton.setTitle(title)
+        if let textSize = textSize {
+            cartButton.titleLabel?.font = AppDesign.FontName.roboto.mediumWith(size: textSize)
+        }
         
-        output.backButtonDidTap()
-    }
-    
-    @objc func cartButtonDidTap(sender: VButton) {
-        
-        output.cartButtonDidTap()
     }
     
     func animeteView(_ viewToAnimete: UIView) {
@@ -277,6 +285,24 @@ private extension ProductViewController {
                             viewToAnimete.transform = CGAffineTransform(scaleX: 1, y: 1) },
                            completion: nil)
         }
+    }
+    
+    // MARK: - Handlers
+    
+    @objc func addToCartButtonDidTap(sender: VButton) {
+        
+        output.addToCartButtonDidTap()
+        animeteView(sender)
+    }
+    
+    @objc func backButtonDidTap(sender: VButton) {
+        
+        output.backButtonDidTap()
+    }
+    
+    @objc func cartButtonDidTap(sender: VButton) {
+        
+        output.cartButtonDidTap()
     }
     
 }
