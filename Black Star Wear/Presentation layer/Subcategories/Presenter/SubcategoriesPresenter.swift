@@ -94,7 +94,7 @@ private extension SubcategoriesPresenter {
         let results = realm.objects(CartDBObject.self)
         token = results.observe { [weak self] change in
             
-            
+            guard let self = self else { return }
             switch change {
             case .initial(let objects):
                 self.view?.setupCartButton(count: objects.count)
